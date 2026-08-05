@@ -16,11 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Default API URL is production `https://api.nqct.org/api/v1` when `url=` / `NQCT_URL` are unset; `save_account(api_key=...)` no longer requires `url`.
+- `examples/sdk_walkthrough.ipynb` credential setup is a single `API_KEY` cell (save + client).
 - `examples/sdk_walkthrough.ipynb` centers on direct QASM submit; function invoke section removed for now.
 - README documents production API `https://api.nqct.org/api/v1` alongside local `nqct start`.
 - README quick start leads with `submit_job`.
 - `build_execution_config()` now constructs and validates `ExecutionConfig`/`SimulatorExecutionConfig`/`HardwareExecutionConfig` (via Pydantic) instead of hand-building dicts; invalid `qubit_mapping` entries or unknown fields now raise `pydantic.ValidationError`. `qubit_mapping` accepts `dict` or `QubitMappingEntry` items.
-- `examples/sdk_walkthrough.ipynb` submit cell catches `JobFailedError`/`JobTimeoutError` around `job.wait()` and prints status + logs instead of raising; `NOTEBOOK_API_KEY`/`NOTEBOOK_URL` now default to `None` so env/`~/.nqct` credentials resolve without editing the cell.
+- `examples/sdk_walkthrough.ipynb` submit cell catches `JobFailedError`/`JobTimeoutError` around `job.wait()` and prints status + logs instead of raising.
 
 ### Fixed
 

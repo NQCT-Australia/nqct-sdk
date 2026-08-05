@@ -1,6 +1,6 @@
 # nqct-sdk — Python client for NQCT Cloud
 
-Python SDK for [NQCT Cloud](https://github.com/NQCT-Australia/nqct-cloud). Use it from notebooks, scripts, and CI to submit OpenQASM 3, monitor jobs, discover backends, and run circuits against the same REST API as the web dashboard. Deployed quantum functions remain available via `function.invoke()`.
+Python SDK for [NQCT Cloud](https://github.com/NQCT-Australia/nqct-cloud). Use it from notebooks, scripts, and CI to submit OpenQASM 3, monitor jobs, discover backends, and run circuits against the same REST API as the web dashboard.
 
 **Status:** Phase 1 (MVP) + `submit_job`. See [CHANGELOG](CHANGELOG.md).
 
@@ -17,14 +17,48 @@ Python SDK for [NQCT Cloud](https://github.com/NQCT-Australia/nqct-cloud). Use i
 
 ## Installation
 
-```bash
-pip install nqct   # PyPI — will be available after first 0.1.0 release
+Clone this repo, then install with **uv** (recommended) or **pip**.
 
-# Local development (sibling clone) — uses uv
+### With uv (recommended)
+
+Install [uv](https://docs.astral.sh/uv/) if you do not have it:
+
+```bash
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Or via pip
+pip install uv
+```
+
+Then sync the project (creates `.venv` and installs deps):
+
+```bash
 cd nqct-sdk
 uv sync --extra dev
 ```
 
+Run commands with `uv run …` (e.g. `uv run pytest tests/unit`).
+
+### Without uv (pip + venv)
+
+```bash
+cd nqct-sdk
+python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
+```
+
+Then run tools directly: `pytest tests/unit`, `ruff check nqct tests`, `mypy nqct`.
+
+### From PyPI (not yet available)
+
+```bash
+pip install nqct   # will be available after the first PyPI release
+```
 
 
 ## Quick start
@@ -33,10 +67,8 @@ uv sync --extra dev
 from nqct import NQCTClient
 
 # One-time setup (writes ~/.nqct/credentials.json, mode 0600)
-NQCTClient.save_account(
-    url="https://api.nqct.org/api/v1",  # or http://localhost:8000/api/v1
-    api_key="nqct_your_key_here",
-)
+# URL defaults to https://api.nqct.org/api/v1
+NQCTClient.save_account(api_key="nqct_your_key_here")
 
 client = NQCTClient()
 
@@ -54,16 +86,30 @@ job = client.submit_job(
 job.wait(timeout=3600)
 print(job.result())
 
-# Deployed functions: client.function(fn_id).invoke(...) also returns a Job
-
 client.close()
+```
+
+Or pass the key directly (no disk write):
+
+```python
+client = NQCTClient(api_key="nqct_your_key_here")
+```
+
+For local `nqct start`, override the URL:
+
+```python
+NQCTClient.save_account(
+    api_key="nqct_your_key_here",
+    url="http://localhost:8000/api/v1",
+)
 ```
 
 Or use environment variables (recommended for CI):
 
 ```bash
-export NQCT_URL=https://api.nqct.org/api/v1
 export NQCT_API_KEY=nqct_...
+# optional — defaults to https://api.nqct.org/api/v1
+# export NQCT_URL=http://localhost:8000/api/v1
 ```
 
 ```python
@@ -87,30 +133,36 @@ Clone both repositories side by side:
 
 1. Start the platform from `nqct-cloud`: `nqct start`
 2. Create an API key in the web UI profile page
-3. Point the SDK at `http://localhost:8000/api/v1`
+3. Override the SDK URL (production is the default):
+
+```python
+NQCTClient.save_account(api_key="nqct_...", url="http://localhost:8000/api/v1")
+```
 
 Integration tests (local or production):
 
 ```bash
-export NQCT_URL=https://api.nqct.org/api/v1   # or http://localhost:8000/api/v1
 export NQCT_API_KEY=nqct_...
-uv run pytest -m integration
+# optional for production (already the default); required for local:
+# export NQCT_URL=http://localhost:8000/api/v1
+uv run pytest -m integration          # or: pytest -m integration  (with venv active)
 ```
-
-
 
 ### Jupyter notebook
 
 Walk through direct QASM submit interactively:
 
 ```bash
+# uv
 uv sync --extra notebook
-export NQCT_URL=https://api.nqct.org/api/v1
-export NQCT_API_KEY=nqct_...
 uv run jupyter lab examples/sdk_walkthrough.ipynb
+
+# pip (venv active)
+pip install -e ".[notebook]"
+jupyter lab examples/sdk_walkthrough.ipynb
 ```
 
-The notebook covers auth, backends, direct QASM submit, and job monitoring.
+Open the notebook, replace `API_KEY` in the first code cell, then run all. The notebook covers auth, backends, direct QASM submit, and job monitoring.
 
 ## Repository layout
 
@@ -126,7 +178,6 @@ nqct/
 tests/unit/
 tests/integration/
 examples/
-  invoke_function.py
   submit_job.py
   sdk_walkthrough.ipynb
 ```
@@ -135,14 +186,21 @@ examples/
 
 ## Development
 
-This project uses [uv](https://docs.astral.sh/uv/) for dependency management (no manual `venv` required).
+Preferred: [uv](https://docs.astral.sh/uv/) (see [Installation](#installation) for install steps). Pip + venv works the same after `pip install -e ".[dev]"`.
 
 ```bash
+# uv
 uv sync --extra dev
 uv run pre-commit install
 uv run ruff check nqct tests
 uv run mypy nqct
 uv run pytest tests/unit
+
+# pip (venv active)
+pre-commit install
+ruff check nqct tests
+mypy nqct
+pytest tests/unit
 ```
 
 

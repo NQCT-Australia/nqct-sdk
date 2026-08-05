@@ -23,6 +23,8 @@ _ENV_REFRESH_TOKEN = "NQCT_REFRESH_TOKEN"
 _ENV_ACCOUNT_NAME = "NQCT_ACCOUNT_NAME"
 _ENV_VERIFY_SSL = "NQCT_VERIFY_SSL"
 
+DEFAULT_API_URL = "https://api.nqct.org/api/v1"
+
 
 class NQCTClient:
     """Client for the NQCT Cloud REST API.
@@ -31,7 +33,9 @@ class NQCTClient:
     sibling ``nqct-cloud`` repo: ``references/specs/14-python-sdk.md``.
 
     Args:
-        url: API base URL including ``/api/v1`` (e.g. ``http://localhost:8000/api/v1``).
+        url: API base URL including ``/api/v1``. Defaults to production
+            (``https://api.nqct.org/api/v1``). Override for local ``nqct start``
+            (``http://localhost:8000/api/v1``) or via ``NQCT_URL``.
         api_key: ``X-API-Key`` value (``nqct_`` prefix). Preferred for automation.
         token: JWT access token (optional; notebook use).
         refresh_token: JWT refresh token (optional).
@@ -81,15 +85,19 @@ class NQCTClient:
     def save_account(
         cls,
         *,
-        url: str,
         api_key: str | None = None,
+        url: str | None = None,
         token: str | None = None,
         refresh_token: str | None = None,
         name: str = DEFAULT_PROFILE,
     ) -> None:
-        """Save credentials to ``~/.nqct/credentials.json`` (mode ``0600``)."""
+        """Save credentials to ``~/.nqct/credentials.json`` (mode ``0600``).
+
+        ``url`` defaults to production (``DEFAULT_API_URL``). Pass a different
+        URL for local development.
+        """
         save_profile(
-            url=url,
+            url=url or DEFAULT_API_URL,
             api_key=api_key,
             token=token,
             refresh_token=refresh_token,
@@ -262,15 +270,10 @@ def _resolve_credentials(
         except (FileNotFoundError, KeyError):
             pass
 
-    url = url or os.environ.get(_ENV_URL)
+    url = url or os.environ.get(_ENV_URL) or DEFAULT_API_URL
     api_key = api_key or os.environ.get(_ENV_API_KEY)
     token = token or os.environ.get(_ENV_TOKEN)
     refresh_token = refresh_token or os.environ.get(_ENV_REFRESH_TOKEN)
-
-    if not url:
-        raise AuthenticationError(
-            f"Missing API URL. Pass url=, set {_ENV_URL}, or save a credentials profile."
-        )
 
     result: dict[str, str] = {"url": url}
     if api_key:
