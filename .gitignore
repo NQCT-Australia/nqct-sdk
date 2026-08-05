@@ -1,0 +1,40 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# IDE / editor
+.idea/
+.vscode/
+.cursor/
+*.swp
+
+# OS
+.DS_Store
+
+# Local env (never commit secrets)
+.env
+.env.*
+
+# Agent / local scaffolding (never commit)
+.worktrees/
+.superpowers/
+docs/superpowers/
+superpowers/
+AGENTS.md
