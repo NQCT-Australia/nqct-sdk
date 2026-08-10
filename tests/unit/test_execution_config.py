@@ -63,13 +63,42 @@ def test_build_execution_config_hardware_kwargs_all_present() -> None:
         gate_substitutions=gate_substitutions,
         readout_mapping=readout_mapping,
         pulse_calibration_id="cal-42",
+        acquisition_type="Integration",
+        averaging="SingleShotCounts",
     )
     assert cfg["hardware"] == {
         "qubit_mapping": mapping,
         "gate_substitutions": gate_substitutions,
         "readout_mapping": readout_mapping,
         "pulse_calibration_id": "cal-42",
+        "acquisition_type": "Integration",
+        "averaging": "SingleShotCounts",
     }
+
+
+def test_build_execution_config_acquisition_and_averaging() -> None:
+    cfg = build_execution_config(
+        acquisition_type="Discrimination",
+        averaging="AverageRepetitions",
+    )
+    assert cfg["hardware"]["acquisition_type"] == "Discrimination"
+    assert cfg["hardware"]["averaging"] == "AverageRepetitions"
+
+
+def test_build_execution_config_normalizes_acquisition_case() -> None:
+    cfg = build_execution_config(acquisition_type="integration", averaging="singleshotcounts")
+    assert cfg["hardware"]["acquisition_type"] == "Integration"
+    assert cfg["hardware"]["averaging"] == "SingleShotCounts"
+
+
+def test_build_execution_config_invalid_acquisition_type_raises() -> None:
+    with pytest.raises(ValidationError):
+        build_execution_config(acquisition_type="Nope")
+
+
+def test_build_execution_config_invalid_averaging_raises() -> None:
+    with pytest.raises(ValidationError):
+        build_execution_config(averaging="Nope")
 
 
 def test_build_execution_config_invalid_optimization_level_raises() -> None:

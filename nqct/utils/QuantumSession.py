@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 from nqct.client import NQCTClient
 from nqct.models.backend import Backend
-from IPython.display import HTML, display
+from nqct.models.execution import normalize_acquisition_type, normalize_averaging
+from IPython.display import display
 from sqdtoolz.Utilities.OpenQASM.ParserOpenQASM import ParserOpenQASM
 import pandas as pd
 from sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI import ScheduleParametersJSONConfigZI
@@ -15,6 +18,8 @@ class QuantumSession:
         self._qasm = ""
         self._num_shots = 1024
         self._qreg_phys_mapping = {}
+        self._acquisition_type: str | None = None
+        self._averaging: str | None = None
     
     def list_backends(self, print_table=True) -> list[Backend]:
         leBackends = self._client.backends(status="online")
@@ -51,11 +56,13 @@ class QuantumSession:
     def set_num_shots(self, num_shots:int):
         self._num_shots = num_shots
 
-    def set_acquisition_type(self, acq_type):
-        pass
+    def set_acquisition_type(self, acq_type: str) -> None:
+        """Set hardware acquisition_type (Discrimination | Integration | Raw)."""
+        self._acquisition_type = normalize_acquisition_type(acq_type)
 
-    def set_averaging_type(self, acq_type):
-        pass
+    def set_averaging_type(self, averaging: str) -> None:
+        """Set hardware averaging (AverageRepetitions | SingleShotCounts)."""
+        self._averaging = normalize_averaging(averaging)
 
     def get_qregs_in_qasm(self):
         qasm_file_path = None##################NEED TO EITHER LOAD FROM TEMPORARY FILE OR INITIALISE VIA STRING
@@ -93,6 +100,8 @@ class QuantumSession:
             backend_id=self._sel_backend.id,
             shots=self._num_shots,
             source="api",
+            acquisition_type=self._acquisition_type,
+            averaging=self._averaging,
         )
         job.wait(timeout=3600)
         return job.result()

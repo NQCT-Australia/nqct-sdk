@@ -188,6 +188,8 @@ class NQCTClient:
         custom_noise_model: dict[str, Any] | None = None,
         qubit_mapping: QubitMapping | None = None,
         gate_substitutions: dict[str, Any] | None = None,
+        acquisition_type: str | None = None,
+        averaging: str | None = None,
         readout_mapping: dict[str, Any] | None = None,
         pulse_calibration_id: str | None = None,
     ) -> Job:
@@ -198,8 +200,8 @@ class NQCTClient:
         for hardware execution. If ``execution_config`` is passed explicitly, it is
         sent as-is and the hardware/simulator kwargs (``fake_backend_name``,
         ``optimization_level``, ``custom_noise_model``, ``qubit_mapping``,
-        ``gate_substitutions``, ``readout_mapping``, ``pulse_calibration_id``)
-        are ignored.
+        ``gate_substitutions``, ``acquisition_type``, ``averaging``,
+        ``readout_mapping``, ``pulse_calibration_id``) are ignored.
         """
         return self._jobs.submit(
             qasm=qasm,
@@ -214,6 +216,8 @@ class NQCTClient:
             custom_noise_model=custom_noise_model,
             qubit_mapping=qubit_mapping,
             gate_substitutions=gate_substitutions,
+            acquisition_type=acquisition_type,
+            averaging=averaging,
             readout_mapping=readout_mapping,
             pulse_calibration_id=pulse_calibration_id,
         )

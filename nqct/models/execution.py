@@ -2,9 +2,44 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+AcquisitionType = Literal["Discrimination", "Integration", "Raw"]
+AveragingMode = Literal["AverageRepetitions", "SingleShotCounts"]
+
+_ACQUISITION_TYPES: dict[str, AcquisitionType] = {
+    "discrimination": "Discrimination",
+    "integration": "Integration",
+    "raw": "Raw",
+}
+_AVERAGING_MODES: dict[str, AveragingMode] = {
+    "averagerepetitions": "AverageRepetitions",
+    "singleshotcounts": "SingleShotCounts",
+}
+
+
+def normalize_acquisition_type(value: str) -> AcquisitionType:
+    """Normalize acquisition_type (case-insensitive) to API PascalCase."""
+    key = (value or "").strip().lower()
+    if key not in _ACQUISITION_TYPES:
+        raise ValueError(
+            f"Invalid acquisition_type {value!r}. "
+            "Allowed: Discrimination, Integration, Raw"
+        )
+    return _ACQUISITION_TYPES[key]
+
+
+def normalize_averaging(value: str) -> AveragingMode:
+    """Normalize averaging (case-insensitive) to API PascalCase."""
+    key = (value or "").strip().lower()
+    if key not in _AVERAGING_MODES:
+        raise ValueError(
+            f"Invalid averaging {value!r}. "
+            "Allowed: AverageRepetitions, SingleShotCounts"
+        )
+    return _AVERAGING_MODES[key]
 
 
 class QubitMappingEntry(BaseModel):
@@ -34,8 +69,7 @@ class SimulatorExecutionConfig(BaseModel):
 class HardwareExecutionConfig(BaseModel):
     """Hardware runtime options for pull-queue claim payload.
 
-    ``qubit_mapping`` and ``gate_substitutions`` default to ``None`` (rather
-    than an empty list/dict) so that :meth:`model_dump` with
+    Optional fields default to ``None`` so that :meth:`model_dump` with
     ``exclude_none=True`` omits them entirely when unset, keeping the
     ``hardware`` envelope as ``{}`` when no hardware options are configured.
     """
@@ -44,9 +78,25 @@ class HardwareExecutionConfig(BaseModel):
 
     qubit_mapping: list[QubitMappingEntry] | None = None
     gate_substitutions: dict[str, Any] | None = None
+    acquisition_type: AcquisitionType | None = None
+    averaging: AveragingMode | None = None
     readout_mapping: dict[str, Any] | None = None
     pulse_calibration_id: str | None = None
     layout: dict[str, Any] | None = None
+
+    @field_validator("acquisition_type", mode="before")
+    @classmethod
+    def _normalize_acquisition_type(cls, value: Any) -> AcquisitionType | None:
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return None
+        return normalize_acquisition_type(str(value))
+
+    @field_validator("averaging", mode="before")
+    @classmethod
+    def _normalize_averaging(cls, value: Any) -> AveragingMode | None:
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return None
+        return normalize_averaging(str(value))
 
 
 class ExecutionConfig(BaseModel):

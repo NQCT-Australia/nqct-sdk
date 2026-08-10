@@ -42,7 +42,9 @@ def test_explicit_api_key(monkeypatch: pytest.MonkeyPatch) -> None:
     client.close()
 
 
-def test_env_credentials(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_env_credentials(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("nqct.auth.credentials.CREDENTIALS_DIR", tmp_path)
+    monkeypatch.setattr("nqct.auth.credentials.CREDENTIALS_FILE", tmp_path / "credentials.json")
     monkeypatch.setenv("NQCT_URL", "http://example:8000/api/v1")
     monkeypatch.setenv("NQCT_API_KEY", "nqct_from_env")
     client = NQCTClient()

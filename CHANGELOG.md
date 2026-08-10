@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Hardware measurement kwargs on `submit_job` / `build_execution_config`: `acquisition_type` (`Discrimination` | `Integration` | `Raw`) and `averaging` (`AverageRepetitions` | `SingleShotCounts`), with case-insensitive normalization.
+- `HardwareExecutionConfig.acquisition_type` / `.averaging` fields aligned with production `POST /jobs`.
+- `QuantumSession.set_acquisition_type` / `set_averaging_type` wired through to `submit_job`.
+- Walkthrough cell demonstrating hardware `acquisition_type` / `averaging` submit.
 - `source="pulse_designer"` on `submit_job` / `JobsManager.submit` (POST /jobs allowlist).
 - Hardware `execution_config` helpers: `qubit_mapping`, `gate_substitutions`, `readout_mapping`, `pulse_calibration_id`.
 - Pydantic models `ExecutionConfig`, `QubitMappingEntry`, and related types in `nqct.models`.

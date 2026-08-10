@@ -27,6 +27,8 @@ def build_execution_config(
     custom_noise_model: dict[str, Any] | None = None,
     qubit_mapping: QubitMapping | None = None,
     gate_substitutions: dict[str, Any] | None = None,
+    acquisition_type: str | None = None,
+    averaging: str | None = None,
     readout_mapping: dict[str, Any] | None = None,
     pulse_calibration_id: str | None = None,
 ) -> dict[str, Any]:
@@ -57,11 +59,15 @@ def build_execution_config(
             fake_backend_name=fake_backend_name,
             custom_noise_model=custom_noise_model,
         ),
-        hardware=HardwareExecutionConfig(
-            qubit_mapping=coerced_mapping,
-            gate_substitutions=gate_substitutions,
-            readout_mapping=readout_mapping,
-            pulse_calibration_id=pulse_calibration_id,
+        hardware=HardwareExecutionConfig.model_validate(
+            {
+                "qubit_mapping": coerced_mapping,
+                "gate_substitutions": gate_substitutions,
+                "acquisition_type": acquisition_type,
+                "averaging": averaging,
+                "readout_mapping": readout_mapping,
+                "pulse_calibration_id": pulse_calibration_id,
+            }
         ),
     )
     return config.model_dump(exclude_none=True)
@@ -124,6 +130,8 @@ class JobsManager:
         custom_noise_model: dict[str, Any] | None = None,
         qubit_mapping: QubitMapping | None = None,
         gate_substitutions: dict[str, Any] | None = None,
+        acquisition_type: str | None = None,
+        averaging: str | None = None,
         readout_mapping: dict[str, Any] | None = None,
         pulse_calibration_id: str | None = None,
     ) -> Job:
@@ -135,7 +143,8 @@ class JobsManager:
         for hardware execution. If ``execution_config`` is passed explicitly, it is
         sent as-is and the ``fake_backend_name``/``optimization_level``/
         ``custom_noise_model``/``qubit_mapping``/``gate_substitutions``/
-        ``readout_mapping``/``pulse_calibration_id`` kwargs are ignored.
+        ``acquisition_type``/``averaging``/``readout_mapping``/
+        ``pulse_calibration_id`` kwargs are ignored.
         """
         if execution_config is None:
             execution_config = build_execution_config(
@@ -144,6 +153,8 @@ class JobsManager:
                 custom_noise_model=custom_noise_model,
                 qubit_mapping=qubit_mapping,
                 gate_substitutions=gate_substitutions,
+                acquisition_type=acquisition_type,
+                averaging=averaging,
                 readout_mapping=readout_mapping,
                 pulse_calibration_id=pulse_calibration_id,
             )
