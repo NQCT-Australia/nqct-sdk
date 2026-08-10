@@ -9,6 +9,7 @@ import pandas as pd
 from sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI import ScheduleParametersJSONConfigZI
 import numpy as np
 from sqdtoolz.Utilities.FileJSON import SerialiseJSON
+from nqct.models.execution import QubitMappingEntry
 
 class QuantumSession:
     def __init__(self, api_key:str=None):
@@ -21,8 +22,8 @@ class QuantumSession:
         self._num_shots = 1024
         self._qreg_phys_mapping = {}
         self._numpy_arrays = {}
-        self._acquisition_type: str | None = None
-        self._averaging: str | None = None
+        self._acquisition_type = 'Discrimination'
+        self._averaging = 'AverageRepetitions'
     
     def list_backends(self, print_table=True) -> list[Backend]:
         leBackends = self._client.backends(status="online")
@@ -95,6 +96,10 @@ class QuantumSession:
             leScheduleTable = poqasm.tabulate_schedule(leSchedule, leScheduleParams)
             if print_output:
                 display(leScheduleTable)
+            #
+            poqasm.check_ZI_compatibility(leSchedule, leScheduleParams)
+            max_shots = poqasm.check_ZI_max_shots(leSchedule, leScheduleParams, self._acquisition_type, self._averaging)
+            assert max_shots >= self._num_shots, f"To fit this measurement in memory, only {max_shots} can be taken in real time."
         else:
             #Perhaps just check qubit counts?
             pass
@@ -117,6 +122,7 @@ class QuantumSession:
             source="api",
             acquisition_type=self._acquisition_type,
             averaging=self._averaging,
+            qubit_mapping=[QubitMappingEntry(qreg=x[0], qreg_index=x[1], phyq_index=self._qreg_phys_mapping[x]) for x in self._qreg_phys_mapping]
         )
         job.wait(timeout=3600)
         return job.result()
