@@ -7,6 +7,8 @@ from IPython.display import display
 from sqdtoolz.Utilities.OpenQASM.ParserOpenQASM import ParserOpenQASM
 import pandas as pd
 from sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI import ScheduleParametersJSONConfigZI
+import numpy as np
+from sqdtoolz.Utilities.FileJSON import SerialiseJSON
 
 class QuantumSession:
     def __init__(self, api_key:str=None):
@@ -18,6 +20,7 @@ class QuantumSession:
         self._qasm = ""
         self._num_shots = 1024
         self._qreg_phys_mapping = {}
+        self._numpy_arrays = {}
         self._acquisition_type: str | None = None
         self._averaging: str | None = None
     
@@ -65,8 +68,7 @@ class QuantumSession:
         self._averaging = normalize_averaging(averaging)
 
     def get_qregs_in_qasm(self):
-        qasm_file_path = None##################NEED TO EITHER LOAD FROM TEMPORARY FILE OR INITIALISE VIA STRING
-        poqasm = ParserOpenQASM(qasm_file_path, kwargs.pop('source_dirs', []), measure_label='QMEAS')
+        poqasm = ParserOpenQASM('', [], main_qasm=self.get_final_qasm())
         return poqasm.get_qregs()
     
     def set_qreg_physical_mapping(self, mapping:dict):
@@ -76,21 +78,34 @@ class QuantumSession:
         """
         self._qreg_phys_mapping = mapping
 
+    def declare_numpy_waveform(self, wfm_name, numpy_array):
+        self._numpy_arrays[wfm_name] = numpy_array
+    def clear_numpy_waveforms(self):
+        self._numpy_arrays = {}
+
     def validate(self, print_output=True):
         if self._sel_backend.type == 'hardware':
-            #TODO: Run key-checking asserts...
-            qasm_file_path = None##################NEED TO EITHER LOAD FROM TEMPORARY FILE OR INITIALISE VIA STRING
-            poqasm = ParserOpenQASM(qasm_file_path, kwargs.pop('source_dirs', []), measure_label='QMEAS')
+            poqasm = ParserOpenQASM('', [], measure_label='QMEAS', main_qasm=self.get_final_qasm())
             if len(self._qreg_phys_mapping) > 0:
                 poqasm.set_qreg_physical_mapping(self._qreg_phys_mapping)
+            poqasm.perform_parsing()
+            #TODO: Run key-checking asserts...
             leScheduleParams = ScheduleParametersJSONConfigZI(self._sel_backend.backend_metadata['topology']['calibration']['payload'])
-            leSchedule = oqasm.create_schedule(leScheduleParams, flatten_blocks=True)
-            leScheduleTable = oqasm.tabulate_schedule(leSchedule, leScheduleParams)
+            leSchedule = poqasm.create_schedule(leScheduleParams, flatten_blocks=True)
+            leScheduleTable = poqasm.tabulate_schedule(leSchedule, leScheduleParams)
             if print_output:
                 display(leScheduleTable)
         else:
             #Perhaps just check qubit counts?
             pass
+
+    def get_final_qasm(self):
+        decls = ";\n\ncal {\n"
+        for cur_array in self._numpy_arrays:
+            cur_encoded = SerialiseJSON.encode_ndarray(self._numpy_arrays[cur_array], True)
+            decls += f"\twaveform {cur_array} = load_numpy_encoded(0x{cur_encoded});\n"
+        decls += "}\n\n"
+        return self._qasm.replace(";", decls, 1)
 
     def run(self, auto_validate=True):
         if auto_validate:
