@@ -10,8 +10,10 @@ from sqdtoolz.Utilities.OpenQASM.ParserOpenQASM import ParserOpenQASM
 import pandas as pd
 from sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI import ScheduleParametersJSONConfigZI
 from sqdtoolz.Utilities.FileJSON import SerialiseJSON
+
 from nqct.models.execution import QubitMappingEntry
 import shutil
+from sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer import ExpZIQASMDataViewer
 
 class QuantumSession:
     def __init__(self, api_key:str=None, storage_path = 'temp/'):
@@ -148,7 +150,9 @@ class QuantumSession:
             uid = str(job.id)
             temp_zip_path = self._storage_path + 'temp.zip'
             self.download_bundle(uid, temp_zip_path)
-            shutil.unpack_archive(temp_zip_path, self._storage_path + uid + '/')
+            file_data_path = self._storage_path + uid + '/'
+            shutil.unpack_archive(temp_zip_path, file_data_path)
+            return ExpZIQASMDataViewer(file_data_path)
         #
         return ret_val
 
