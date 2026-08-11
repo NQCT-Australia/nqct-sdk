@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sys
+from pathlib import Path
 from types import ModuleType
 from unittest.mock import MagicMock
 
@@ -11,6 +12,7 @@ import respx
 
 from tests.fixtures.api_responses import (
     DIRECT_QASM_JOB_ITEM,
+    JOB_DONE,
     JOB_ID,
     JOB_SUBMIT_RESPONSE,
 )
@@ -159,4 +161,20 @@ def test_quantum_session_setters_normalize_case(quantum_session_cls) -> None:
     session.set_averaging_type("averagerepetitions")
     assert session._acquisition_type == "Raw"
     assert session._averaging == "AverageRepetitions"
+    session.close()
+
+
+@respx.mock
+def test_quantum_session_download_bundle(quantum_session_cls, tmp_path: Path) -> None:
+    session = quantum_session_cls(api_key="nqct_test")
+    session._client = session._client.__class__(url=BASE, api_key="nqct_test")
+    zip_bytes = b"PK\x03\x04from-session"
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(return_value=httpx.Response(200, json=JOB_DONE))
+    respx.get(f"{BASE}/jobs/{JOB_ID}/artifacts/bundle").mock(
+        return_value=httpx.Response(200, content=zip_bytes)
+    )
+    dest = tmp_path / "session.zip"
+    written = session.download_bundle(str(JOB_ID), path=dest)
+    assert written == dest
+    assert dest.read_bytes() == zip_bytes
     session.close()

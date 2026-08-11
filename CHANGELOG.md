@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Job.download_bundle()` / `QuantumSession.download_bundle()` for `GET /jobs/{id}/artifacts/bundle` (stream hardware result zip to a local path).
+- Walkthrough cells demonstrating hardware artifact bundle download.
 - Hardware `shot_repeat` (software repeat) on `submit_job` / `build_execution_config` / `HardwareExecutionConfig` (integer ≥ 1; omitted when unset).
 - Hardware measurement kwargs on `submit_job` / `build_execution_config`: `acquisition_type` (`Discrimination` | `Integration` | `Raw`) and `averaging` (`AverageRepetitions` | `SingleShotCounts`), with case-insensitive normalization.
 - `HardwareExecutionConfig.acquisition_type` / `.averaging` fields aligned with production `POST /jobs`.
@@ -33,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `SimulatorExecutionConfig`/`HardwareExecutionConfig` now reject unknown fields (`extra="forbid"`), matching `QubitMappingEntry`.
 - Package version in `pyproject.toml` aligned with changelog (`0.2.0`).
+- `HTTPSession.stream_to_path` no longer raises a spurious `DecodingError` on gzip-encoded error bodies (was double-decoding a rebuilt `httpx.Response`).
+- `HTTPSession.stream_to_path` now streams to a sibling temp file and atomically `os.replace`s it into `dest`, so a mid-download failure no longer leaves a truncated `dest` or destroys a prior good download.
+- `examples/sdk_walkthrough.ipynb` bundle-download cell now `mkdir`s the `downloads` directory before calling `download_bundle`, since a non-existent directory target is otherwise treated as the destination file itself.
 
 ## [0.2.0] - 2026-07-08
 

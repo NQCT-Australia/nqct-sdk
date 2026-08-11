@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import httpx
 import pytest
 import respx
@@ -232,4 +234,77 @@ def test_backend_not_found(client: NQCTClient) -> None:
     )
     with pytest.raises(NotFoundError):
         client.backend("missing")
+    client.close()
+
+
+@respx.mock
+def test_job_download_bundle_writes_zip(client: NQCTClient, tmp_path: Path) -> None:
+    zip_bytes = b"PK\x03\x04bundle"
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(return_value=httpx.Response(200, json=JOB_DONE))
+    respx.get(f"{BASE}/jobs/{JOB_ID}/artifacts/bundle").mock(
+        return_value=httpx.Response(200, content=zip_bytes)
+    )
+    job = client.job(JOB_ID)
+    dest = tmp_path / "custom.zip"
+    written = job.download_bundle(dest)
+    assert written == dest
+    assert dest.read_bytes() == zip_bytes
+    client.close()
+
+
+@respx.mock
+def test_job_download_bundle_default_name(
+    client: NQCTClient, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    zip_bytes = b"PK\x03\x04bundle"
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(return_value=httpx.Response(200, json=JOB_DONE))
+    respx.get(f"{BASE}/jobs/{JOB_ID}/artifacts/bundle").mock(
+        return_value=httpx.Response(200, content=zip_bytes)
+    )
+    job = client.job(JOB_ID)
+    written = job.download_bundle()
+    expected = tmp_path / f"job-{JOB_ID}-hardware-results.zip"
+    assert written == expected
+    assert expected.read_bytes() == zip_bytes
+    client.close()
+
+
+@respx.mock
+def test_job_download_bundle_into_directory(client: NQCTClient, tmp_path: Path) -> None:
+    zip_bytes = b"PK\x03\x04bundle"
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(return_value=httpx.Response(200, json=JOB_DONE))
+    respx.get(f"{BASE}/jobs/{JOB_ID}/artifacts/bundle").mock(
+        return_value=httpx.Response(200, content=zip_bytes)
+    )
+    job = client.job(JOB_ID)
+    written = job.download_bundle(tmp_path)
+    expected = tmp_path / f"job-{JOB_ID}-hardware-results.zip"
+    assert written == expected
+    assert expected.read_bytes() == zip_bytes
+    client.close()
+
+
+@respx.mock
+def test_job_download_bundle_raises_when_not_done(client: NQCTClient, tmp_path: Path) -> None:
+    route = respx.get(f"{BASE}/jobs/{JOB_ID}/artifacts/bundle").mock(
+        return_value=httpx.Response(200, content=b"should-not-call")
+    )
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(return_value=httpx.Response(200, json=JOB_ITEM))
+    job = client.job(JOB_ID)
+    with pytest.raises(JobNotCompleteError):
+        job.download_bundle(tmp_path / "x.zip")
+    assert route.call_count == 0
+    client.close()
+
+
+@respx.mock
+def test_job_download_bundle_maps_404(client: NQCTClient, tmp_path: Path) -> None:
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(return_value=httpx.Response(200, json=JOB_DONE))
+    respx.get(f"{BASE}/jobs/{JOB_ID}/artifacts/bundle").mock(
+        return_value=httpx.Response(404, json={"detail": "Artifacts not available"})
+    )
+    job = client.job(JOB_ID)
+    with pytest.raises(NotFoundError):
+        job.download_bundle(tmp_path / "x.zip")
     client.close()

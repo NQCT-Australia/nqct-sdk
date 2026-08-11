@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import os
+import tempfile
 from collections.abc import Mapping
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -112,6 +115,47 @@ class HTTPSession:
         json: Any = None,
     ) -> httpx.Response:
         return self.request("PATCH", path, params=params, json=json)
+
+    def stream_to_path(
+        self,
+        path: str,
+        dest: str | Path,
+        *,
+        params: Mapping[str, Any] | None = None,
+    ) -> Path:
+        """``GET`` binary response and write it to ``dest``.
+
+        Uses auth headers and ``Accept: */*`` (does not force JSON). Streams
+        chunks to a temporary file in ``dest``'s directory, then atomically
+        replaces ``dest`` on success via ``os.replace``. On HTTP error or a
+        mid-stream failure, the temp file is removed and ``dest`` (including
+        any pre-existing file at that path) is left untouched. On HTTP
+        error, maps status via ``_raise_for_status``.
+        """
+        if not path.startswith("/"):
+            path = f"/{path}"
+        dest = Path(dest)
+
+        headers = {**self._auth_headers(), "Accept": "*/*"}
+        with self._client.stream("GET", path, params=params, headers=headers) as response:
+            if not response.is_success:
+                response.read()  # buffer body so error JSON can be parsed
+                self._raise_for_status(response)
+
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            fd, tmp_name = tempfile.mkstemp(
+                dir=dest.parent, prefix=f".{dest.name}.", suffix=".part"
+            )
+            tmp_path = Path(tmp_name)
+            try:
+                with os.fdopen(fd, "wb") as handle:
+                    for chunk in response.iter_bytes():
+                        handle.write(chunk)
+            except Exception:
+                tmp_path.unlink(missing_ok=True)
+                raise
+            os.replace(tmp_path, dest)
+        return dest
 
     def _raise_for_status(self, response: httpx.Response) -> None:
         detail: Any

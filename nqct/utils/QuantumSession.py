@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from nqct.client import NQCTClient
 from nqct.models.backend import Backend
 from nqct.models.execution import normalize_acquisition_type, normalize_averaging
@@ -140,6 +142,13 @@ class QuantumSession:
         job.wait(timeout=3600)
         return job.result()
 
+    def download_bundle(self, job_id: str, path: str | Path | None = None) -> Path:
+        """``GET /jobs/{id}/artifacts/bundle`` — download hardware result zip.
+
+        Fetches the job then calls ``Job.download_bundle``.
+        """
+        job = self._client.job(job_id)
+        return job.download_bundle(path)
 
     def close(self):
         self._client.close()

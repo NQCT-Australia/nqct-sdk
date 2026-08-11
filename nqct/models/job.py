@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 from uuid import UUID
 
@@ -111,6 +112,39 @@ class Job(BaseModel):
         payload = response.json()
         logs = payload.get("logs", [])
         return list(logs) if isinstance(logs, list) else []
+
+    def download_bundle(self, path: str | Path | None = None) -> Path:
+        """``GET /jobs/{id}/artifacts/bundle`` — save hardware result zip locally.
+
+        Requires ``status == done``. Missing/skipped artifacts surface as API
+        errors (e.g. ``NotFoundError``).
+
+        Args:
+            path: Destination file, an *existing* directory, or ``None``
+                for ``./job-{id}-hardware-results.zip`` (``~`` expanded).
+                A directory target is only detected if it already exists on
+                disk; a non-existent path is always treated as the
+                destination file itself, so callers must ``mkdir`` any new
+                directory before passing it here.
+
+        Returns:
+            The resolved (absolute) path to the written zip file.
+        """
+        if self.status != "done":
+            raise JobNotCompleteError(
+                f"Job {self.id} is {self.status!r}; artifact bundle is only "
+                "available when done."
+            )
+        default_name = f"job-{self.id}-hardware-results.zip"
+        if path is None:
+            dest = Path(default_name)
+        else:
+            dest = Path(path).expanduser()
+            if dest.is_dir():
+                dest = dest / default_name
+        return self._http.stream_to_path(
+            f"/jobs/{self.id}/artifacts/bundle", dest
+        ).resolve()
 
 
 def job_from_api(data: dict[str, Any], http: HTTPSession) -> Job:
