@@ -7,7 +7,6 @@ from IPython.display import display
 from sqdtoolz.Utilities.OpenQASM.ParserOpenQASM import ParserOpenQASM
 import pandas as pd
 from sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI import ScheduleParametersJSONConfigZI
-import numpy as np
 from sqdtoolz.Utilities.FileJSON import SerialiseJSON
 from nqct.models.execution import QubitMappingEntry
 
@@ -24,6 +23,7 @@ class QuantumSession:
         self._numpy_arrays = {}
         self._acquisition_type = 'Discrimination'
         self._averaging = 'AverageRepetitions'
+        self._shot_repeat = 1
     
     def list_backends(self, print_table=True) -> list[Backend]:
         leBackends = self._client.backends(status="online")
@@ -68,6 +68,14 @@ class QuantumSession:
         """Set hardware averaging (AverageRepetitions | SingleShotCounts)."""
         self._averaging = normalize_averaging(averaging)
 
+    def set_shot_repeat(self, shot_repeat: int) -> None:
+        """Set the number of software repeats for hardware execution."""
+        if not isinstance(shot_repeat, int) or isinstance(shot_repeat, bool) or shot_repeat < 1:
+            raise ValueError(
+                f"shot_repeat must be an integer >= 1, got {shot_repeat!r}"
+            )
+        self._shot_repeat = shot_repeat
+
     def get_qregs_in_qasm(self):
         poqasm = ParserOpenQASM('', [], main_qasm=self.get_final_qasm())
         return poqasm.get_qregs()
@@ -99,7 +107,11 @@ class QuantumSession:
             #
             poqasm.check_ZI_compatibility(leSchedule, leScheduleParams)
             max_shots = poqasm.check_ZI_max_shots(leSchedule, leScheduleParams, self._acquisition_type, self._averaging)
-            assert max_shots >= self._num_shots, f"To fit this measurement in memory, only {max_shots} can be taken in real time."
+            assert max_shots >= self._num_shots, (
+                f"To fit this measurement in memory, only {max_shots} shots can be "
+                "taken in real time; reduce shots or use set_shot_repeat() for "
+                "additional software repeats."
+            )
         else:
             #Perhaps just check qubit counts?
             pass
@@ -122,6 +134,7 @@ class QuantumSession:
             source="api",
             acquisition_type=self._acquisition_type,
             averaging=self._averaging,
+            shot_repeat=self._shot_repeat,
             qubit_mapping=[QubitMappingEntry(qreg=x[0], qreg_index=x[1], phyq_index=self._qreg_phys_mapping[x]) for x in self._qreg_phys_mapping]
         )
         job.wait(timeout=3600)

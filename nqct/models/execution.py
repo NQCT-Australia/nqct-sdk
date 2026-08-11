@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -80,6 +80,7 @@ class HardwareExecutionConfig(BaseModel):
     gate_substitutions: dict[str, Any] | None = None
     acquisition_type: AcquisitionType | None = None
     averaging: AveragingMode | None = None
+    shot_repeat: int | None = Field(default=None, ge=1)
     readout_mapping: dict[str, Any] | None = None
     pulse_calibration_id: str | None = None
     layout: dict[str, Any] | None = None
@@ -97,6 +98,13 @@ class HardwareExecutionConfig(BaseModel):
         if value is None or (isinstance(value, str) and not value.strip()):
             return None
         return normalize_averaging(str(value))
+
+    @field_validator("shot_repeat", mode="before")
+    @classmethod
+    def _normalize_shot_repeat(cls, value: Any) -> int | None:
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return None
+        return cast(int, value)
 
 
 class ExecutionConfig(BaseModel):

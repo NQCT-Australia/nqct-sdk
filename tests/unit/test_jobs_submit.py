@@ -116,6 +116,28 @@ def test_submit_job_includes_acquisition_type_and_averaging() -> None:
 
 
 @respx.mock
+def test_submit_job_includes_shot_repeat() -> None:
+    client = NQCTClient(url=BASE, api_key="nqct_test")
+    route = respx.post(f"{BASE}/jobs").mock(
+        return_value=httpx.Response(201, json=JOB_SUBMIT_RESPONSE)
+    )
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(
+        return_value=httpx.Response(200, json=DIRECT_QASM_JOB_ITEM)
+    )
+
+    client.submit_job(
+        qasm=QASM,
+        backend_id="hardware-qpu-1",
+        source="api",
+        shot_repeat=2,
+    )
+
+    body = json.loads(route.calls.last.request.content.decode())
+    assert body["execution_config"]["hardware"]["shot_repeat"] == 2
+    client.close()
+
+
+@respx.mock
 def test_submit_job_includes_gate_substitutions_and_readout_mapping() -> None:
     client = NQCTClient(url=BASE, api_key="nqct_test")
     route = respx.post(f"{BASE}/jobs").mock(

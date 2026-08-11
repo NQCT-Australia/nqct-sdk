@@ -85,6 +85,21 @@ def test_build_execution_config_acquisition_and_averaging() -> None:
     assert cfg["hardware"]["averaging"] == "AverageRepetitions"
 
 
+def test_build_execution_config_shot_repeat() -> None:
+    cfg = build_execution_config(shot_repeat=3)
+    assert cfg["hardware"]["shot_repeat"] == 3
+
+
+def test_build_execution_config_blank_shot_repeat_is_omitted() -> None:
+    cfg = build_execution_config(shot_repeat="")  # type: ignore[arg-type]
+    assert "shot_repeat" not in cfg["hardware"]
+
+
+def test_build_execution_config_invalid_shot_repeat_raises() -> None:
+    with pytest.raises(ValidationError):
+        build_execution_config(shot_repeat=0)
+
+
 def test_build_execution_config_normalizes_acquisition_case() -> None:
     cfg = build_execution_config(acquisition_type="integration", averaging="singleshotcounts")
     assert cfg["hardware"]["acquisition_type"] == "Integration"

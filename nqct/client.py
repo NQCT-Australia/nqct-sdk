@@ -190,6 +190,7 @@ class NQCTClient:
         gate_substitutions: dict[str, Any] | None = None,
         acquisition_type: str | None = None,
         averaging: str | None = None,
+        shot_repeat: int | None = None,
         readout_mapping: dict[str, Any] | None = None,
         pulse_calibration_id: str | None = None,
     ) -> Job:
@@ -201,7 +202,7 @@ class NQCTClient:
         sent as-is and the hardware/simulator kwargs (``fake_backend_name``,
         ``optimization_level``, ``custom_noise_model``, ``qubit_mapping``,
         ``gate_substitutions``, ``acquisition_type``, ``averaging``,
-        ``readout_mapping``, ``pulse_calibration_id``) are ignored.
+        ``shot_repeat``, ``readout_mapping``, ``pulse_calibration_id``) are ignored.
         """
         return self._jobs.submit(
             qasm=qasm,
@@ -218,6 +219,7 @@ class NQCTClient:
             gate_substitutions=gate_substitutions,
             acquisition_type=acquisition_type,
             averaging=averaging,
+            shot_repeat=shot_repeat,
             readout_mapping=readout_mapping,
             pulse_calibration_id=pulse_calibration_id,
         )

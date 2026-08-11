@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Hardware `shot_repeat` (software repeat) on `submit_job` / `build_execution_config` / `HardwareExecutionConfig` (integer ≥ 1; omitted when unset).
 - Hardware measurement kwargs on `submit_job` / `build_execution_config`: `acquisition_type` (`Discrimination` | `Integration` | `Raw`) and `averaging` (`AverageRepetitions` | `SingleShotCounts`), with case-insensitive normalization.
 - `HardwareExecutionConfig.acquisition_type` / `.averaging` fields aligned with production `POST /jobs`.
 - `QuantumSession.set_acquisition_type` / `set_averaging_type` wired through to `submit_job`.
