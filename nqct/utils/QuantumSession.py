@@ -11,9 +11,10 @@ import pandas as pd
 from sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI import ScheduleParametersJSONConfigZI
 from sqdtoolz.Utilities.FileJSON import SerialiseJSON
 from nqct.models.execution import QubitMappingEntry
+import shutil
 
 class QuantumSession:
-    def __init__(self, api_key:str=None):
+    def __init__(self, api_key:str=None, storage_path = 'temp/'):
         """
         If api_key is None, it will resort to the saved key on the system...
         """
@@ -26,6 +27,7 @@ class QuantumSession:
         self._acquisition_type = 'Discrimination'
         self._averaging = 'AverageRepetitions'
         self._shot_repeat = 1
+        self._storage_path = storage_path
     
     def list_backends(self, print_table=True) -> list[Backend]:
         leBackends = self._client.backends(status="online")
@@ -126,7 +128,7 @@ class QuantumSession:
         decls += "}\n\n"
         return self._qasm.replace(";", decls, 1)
 
-    def run(self, auto_validate=True):
+    def run(self, auto_validate=True, dont_download_raw=False):
         if auto_validate:
             self.validate(False)
         job = self._client.submit_job(
@@ -139,8 +141,16 @@ class QuantumSession:
             shot_repeat=self._shot_repeat,
             qubit_mapping=[QubitMappingEntry(qreg=x[0], qreg_index=x[1], phyq_index=self._qreg_phys_mapping[x]) for x in self._qreg_phys_mapping]
         )
-        job.wait(timeout=3600)
-        return job.result()
+        job = job.wait(timeout=3600)
+        ret_val = job.result()
+        #
+        if not dont_download_raw:
+            uid = str(job.id)
+            temp_zip_path = self._storage_path + 'temp.zip'
+            self.download_bundle(uid, temp_zip_path)
+            shutil.unpack_archive(temp_zip_path, self._storage_path + uid + '/')
+        #
+        return ret_val
 
     def download_bundle(self, job_id: str, path: str | Path | None = None) -> Path:
         """``GET /jobs/{id}/artifacts/bundle`` — download hardware result zip.
