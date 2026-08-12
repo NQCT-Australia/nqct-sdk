@@ -12,6 +12,7 @@ from sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI import ScheduleP
 from sqdtoolz.Utilities.FileJSON import SerialiseJSON
 
 from nqct.models.execution import QubitMappingEntry
+import os
 import shutil
 from sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer import ExpZIQASMDataViewer
 
@@ -172,3 +173,11 @@ class QuantumSession:
         """
         self._client = NQCTClient(api_key=api_key)
 
+    def get_results_by_uuid(self, uuid:str):
+        file_data_path = self._storage_path + uuid + '/'
+        if os.path.exists(file_data_path):
+            return ExpZIQASMDataViewer(file_data_path)
+        temp_zip_path = self._storage_path + 'temp.zip'
+        self.download_bundle(uuid, temp_zip_path)
+        shutil.unpack_archive(temp_zip_path, file_data_path)
+        return ExpZIQASMDataViewer(file_data_path)
