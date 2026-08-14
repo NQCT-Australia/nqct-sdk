@@ -109,3 +109,6 @@ branch = true
 [tool.coverage.report]
 fail_under = 70
 show_missing = true
+
+[tool.hatch.metadata]
+allow-direct-references = true
