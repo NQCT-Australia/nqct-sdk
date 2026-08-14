@@ -135,7 +135,7 @@ class QuantumSession:
         if auto_validate:
             self.validate(False)
         job = self._client.submit_job(
-            qasm=self._qasm,
+            qasm=self.get_final_qasm(),
             backend_id=self._sel_backend.id,
             shots=self._num_shots,
             source="api",
