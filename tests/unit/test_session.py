@@ -8,7 +8,7 @@ import httpx
 import pytest
 import respx
 from nqct.exceptions import AuthenticationError, NotFoundError, ServerError, ValidationError
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 
 BASE = "http://localhost:8000/api/v1"
 

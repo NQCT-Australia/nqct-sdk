@@ -39,3 +39,8 @@ docs/superpowers/
 superpowers/
 AGENTS.md
 temp/
+
+# Sphinx documentation
+doc-sphinx/build/
+doc-sphinx/source/generated/
+doc-sphinx/source/_autosummary/

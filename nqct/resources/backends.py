@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 from nqct.models.backend import Backend, backend_from_api
 
 

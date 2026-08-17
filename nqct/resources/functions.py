@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 from uuid import UUID
 
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 from nqct.models.function import Function, function_from_api
 
 

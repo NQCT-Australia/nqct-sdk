@@ -8,7 +8,7 @@ from uuid import UUID
 
 from nqct.auth.credentials import DEFAULT_PROFILE, delete_profile, load_profile, save_profile
 from nqct.exceptions import AuthenticationError
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 from nqct.models.backend import Backend
 from nqct.models.function import Function
 from nqct.models.job import Job

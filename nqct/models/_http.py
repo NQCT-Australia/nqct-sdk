@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TypeVar
 
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 
 T = TypeVar("T")
 

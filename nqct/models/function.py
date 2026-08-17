@@ -8,7 +8,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, PrivateAttr
 
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 from nqct.models._http import attach_http
 from nqct.models.job import Job, job_from_api
 

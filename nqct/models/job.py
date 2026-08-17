@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict, PrivateAttr
 
 from nqct.exceptions import JobNotCompleteError
 from nqct.execution.polling import wait_for_terminal_status
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 from nqct.models._http import attach_http
 
 TERMINAL_STATUSES = frozenset({"done", "failed", "cancelled"})

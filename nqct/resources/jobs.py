@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Literal
 from uuid import UUID
 
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 from nqct.models.execution import (
     ExecutionConfig,
     HardwareExecutionConfig,

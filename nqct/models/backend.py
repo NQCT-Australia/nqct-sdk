@@ -7,7 +7,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
-from nqct.http.session import HTTPSession
+from nqct.httpss.session import HTTPSession
 from nqct.models._http import attach_http
 
 

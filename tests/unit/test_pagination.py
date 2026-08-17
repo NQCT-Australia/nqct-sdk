@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from nqct.http.pagination import PageIterator
+from nqct.httpss.pagination import PageIterator
 
 
 def test_page_iterator_from_list() -> None:
