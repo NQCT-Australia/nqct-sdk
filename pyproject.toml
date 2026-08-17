@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "nqct"
 version = "0.2.0"
-description = "Python client for NQCT Cloud — backends, jobs, functions, and circuits"
+description = "Python SDK for the National Quantum Computing Testbed (NQCT)"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"
@@ -26,10 +26,7 @@ dependencies = [
     "httpx>=0.27,<1",
     "pydantic>=2.5,<3",
     "typing-extensions>=4.8",
-    #"sqdtoolz @ git+https://github.com/sqdlab/SQDToolz.git",
-    "nbsphinx",
-    "ipykernel>=6.0.0",
-    "sphinx-rtd-theme"
+    "sqdtoolz @ git+https://github.com/sqdlab/SQDToolz.git"
 ]
 
 [project.optional-dependencies]
@@ -50,13 +47,18 @@ notebook = [
     "ipykernel>=6.29",
     "jupyterlab>=4.2",
 ]
+docs = [
+    "sphinx",
+    "nbsphinx",
+    "sphinx-rtd-theme"
+]
 
 [tool.uv]
 default-groups = []
 
 [project.urls]
 Homepage = "https://github.com/NQCT-Australia/nqct-sdk"
-Documentation = "https://github.com/NQCT-Australia/nqct-sdk#readme"
+Documentation = "https://nqct-australia.github.io/nqct-sdk/"
 Repository = "https://github.com/NQCT-Australia/nqct-sdk"
 "NQCT Cloud spec" = "https://github.com/NQCT-Australia/nqct-cloud/blob/main/references/specs/14-python-sdk.md"
 

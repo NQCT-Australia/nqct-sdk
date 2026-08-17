@@ -37,6 +37,7 @@ html_theme_options = {
     'navigation_depth': 10
 }
 html_logo = "_static/nqct.png"
+html_favicon = '_static/nqct-icon.png'
 
 nbsphinx_execute = 'never'
 # nitpicky = True #This setting tells Sphinx to resolve all cross-references (like :class:) and fail the build if any are broken.
