@@ -12,6 +12,7 @@
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
+    <link rel="shortcut icon" href="../_static/nqct-icon.png"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
@@ -94,7 +95,94 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Sup</span>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">nqct.utils.QuantumSession</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumSession</span>
+
+<span class="n">qs</span> <span class="o">=</span> <span class="n">QuantumSession</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"PASTE_API_KEY_HERE"</span><span class="p">,</span> <span class="n">storage_path</span><span class="o">=</span><span class="s1">'temp/'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">list_backends</span><span class="p">();</span>
+<span class="c1">#Copy over the desired backend from the given list</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">select_backend</span><span class="p">(</span><span class="s1">'quantware_soprano_d2'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_script</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"""</span>
+<span class="s2">OPENQASM 3;</span>
+<span class="s2">include 'stdgates_transmon_fixed_coupler.inc';</span>
+
+<span class="s2">bit[2] c;</span>
+<span class="s2">qubit[2] q;</span>
+
+<span class="s2">z q[0];</span>
+<span class="s2">rx(pi/2) q[0];</span>
+
+<span class="s2">z q[1];</span>
+<span class="s2">ry(pi/2) q[1];</span>
+
+<span class="s2">ctrl @ z q[0], q[1];</span>
+
+<span class="s2">z q[1];</span>
+<span class="s2">ry(pi/2) q[1];</span>
+
+<span class="s2">delay[0]  q[0], q[1];</span>
+<span class="s2">c[0] = measure q[0];</span>
+<span class="s2">c[1] = measure q[1];</span>
+<span class="s2">"""</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_qasm</span><span class="p">(</span><span class="n">my_script</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">get_qregs_in_qasm</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">set_acquisition_type</span><span class="p">(</span><span class="s1">'DISCRIMINATION'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_averaging_type</span><span class="p">(</span><span class="s1">'SingleShotCounts'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_num_shots</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_shot_repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leRes</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leRes</span><span class="o">.</span><span class="n">get_inner_slicing_vars</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cur_arrs</span> <span class="o">=</span> <span class="n">leRes</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
