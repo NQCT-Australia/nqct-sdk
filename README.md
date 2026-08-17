@@ -1,6 +1,6 @@
 # NQCT Python SDK
 
-[![Documentation](https://img.shields.io/badge/Documentation-blue)](https://nqct.github.io/nqct-sdk/)
+[![Documentation](https://img.shields.io/badge/Documentation-blue)](https://nqct-australia.github.io/nqct-sdk/)
 
 Python interface for the **National Quantum Computing Testbed (NQCT)**.
 
