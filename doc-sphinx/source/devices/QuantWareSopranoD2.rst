@@ -27,7 +27,7 @@ The individual transmon qubits have:
 The qubits follow the standard Hamiltonian (under truncation of the Taylor series for cosine arising from the Josephson junction's nonlinearity):
 
 .. math::
-    \begin{aligned}\mathcal{H}\approx&\hbar\omega_q(a^\dagger_qa_q+\tfrac{1}{2})+\frac{\hbar\alpha}{2}a_q^\dagger a_q^\dagger a_qa_q \\&+ \hbar\omega_c(a^\dagger_ca_c+\tfrac{1}{2}) + \hbar g_c(a_q-a_q^\dagger)(a_c-a_c^\dagger)\ \\&+ \hbar\omega_r(a^\dagger_ra_r+\tfrac{1}{2}) - \hbar g_r(a_q-a_q^\dagger)(a_r-a_r^\dagger)\end{aligned}
+    \begin{aligned}\mathcal{H}\approx&\hbar\omega_q(a^\dagger_qa_q+\tfrac{1}{2})+\frac{\hbar\alpha}{2}a_q^\dagger a_q^\dagger a_qa_q \\&+ \hbar\omega_c(a^\dagger_ca_c+\tfrac{1}{2}) - \hbar g_c(a_q-a_q^\dagger)(a_c-a_c^\dagger)\ \\&+ \hbar\omega_r(a^\dagger_ra_r+\tfrac{1}{2}) - \hbar g_r(a_q-a_q^\dagger)(a_r-a_r^\dagger)\end{aligned}
 
 where the first line describes the individual qubit :math:`q`, the second line describes the coupling of the qubit to its charge line, while the third line describes the coupling of the qubit to its readout resonator. The qubit angular frequency :math:`\omega_q` is tunable via its flux line up to its maximum frequency :math:`\omega_q^\max`. The qubit anharmonicity (the perturbation lowers the energy separation between the first and second excited states) :math:`\alpha` also changes from its maxumum :math:`\alpha^\max` when tuning the flux line. The charge line operates around the qubit frequency, whereas the resonator operates in the dispersive limit and does not change the qubit population. The effective two-level system comprised of the qubit and its charge-line is (under the rotating wave approximation):
 
@@ -54,32 +54,32 @@ The following table lists the typical fixed device parameters.
      - :math:`\omega_q` (GHz)
      - :math:`\alpha` (MHz)
      - :math:`\omega_r` (GHz)
-     - :math:`\chi` (MHz)
+     - :math:`\chi` (kHz)
    * - Q0
      - 5.141
      - -214.4
      - 7.263
-     - -0.36
+     - -363.3
    * - Q1
      - 5.119
      - -216.0
      - 7.412
-     - 0
+     - -375.0
    * - Q2
      - 5.882
      - -204.9
      - 7.548
-     - 0
+     - -405.8
    * - Q3
      - 5.762
      - -190.3
      - 7.707
-     - 0
+     - -589.0
    * - Q4
      - 5.720
      - -194.2
      - 7.858
-     - 0
+     - -374.0
 
 
 For the latest set of device parameters, refer to the NQCT cloud dashboard.
