@@ -27,7 +27,7 @@ The individual transmon qubits have:
 The qubits follow the standard Hamiltonian (under truncation of the Taylor series for cosine arising from the Josephson junction's nonlinearity):
 
 .. math::
-    \begin{align}\mathcal{H}\approx&\hbar\omega_q(a^\dagger_qa_q+\tfrac{1}{2})+\frac{\hbar\alpha}{2}a_q^\dagger a_q^\dagger a_qa_q \\&+ \hbar\omega_c(a^\dagger_ca_c+\tfrac{1}{2}) + \hbar g_c(a_q-a_q^\dagger)(a_c-a_c^\dagger)\ \\&+ \hbar\omega_r(a^\dagger_ra_r+\tfrac{1}{2}) - \hbar g_r(a_q-a_q^\dagger)(a_r-a_r^\dagger)\end{align}
+    \begin{aligned}\mathcal{H}\approx&\hbar\omega_q(a^\dagger_qa_q+\tfrac{1}{2})+\frac{\hbar\alpha}{2}a_q^\dagger a_q^\dagger a_qa_q \\&+ \hbar\omega_c(a^\dagger_ca_c+\tfrac{1}{2}) + \hbar g_c(a_q-a_q^\dagger)(a_c-a_c^\dagger)\ \\&+ \hbar\omega_r(a^\dagger_ra_r+\tfrac{1}{2}) - \hbar g_r(a_q-a_q^\dagger)(a_r-a_r^\dagger)\end{aligned}
 
 where the first line describes the individual qubit :math:`q`, the second line describes the coupling of the qubit to its charge line, while the third line describes the coupling of the qubit to its readout resonator. The qubit angular frequency :math:`\omega_q` is tunable via its flux line up to its maximum frequency :math:`\omega_q^\max`. The qubit anharmonicity (the perturbation lowers the energy separation between the first and second excited states) :math:`\alpha` also changes from its maxumum :math:`\alpha^\max` when tuning the flux line. The charge line operates around the qubit frequency, whereas the resonator operates in the dispersive limit and does not change the qubit population. The effective two-level system comprised of the qubit and its charge-line is (under the rotating wave approximation):
 
