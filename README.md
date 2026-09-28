@@ -29,7 +29,7 @@ They are designed to take you from your first connection to NQCT through progres
 4. Follow the examples and adapt them to your own work.
 5. Explore the other notebooks as you become familiar with the platform.
 
-See [Examples and notebooks](#examples-and-notebooks).
+See [Examples and notebooks](https://nqct-australia.github.io/nqct-sdk/examples/index.html).
 
 ---
 
@@ -41,11 +41,7 @@ Install the SDK using Python's package manager:
 pip install nqct
 ```
 
-> **Note:** The package will be published to PyPI as the project reaches its public release. Until then, see the repository documentation for the current installation method.
-
-You will also need an **NQCT API key** to access the platform.
-
-API keys are managed through your NQCT account.
+You will also need an **NQCT API key** to access the platform. API keys are managed through your NQCT account.
 
 ---
 
