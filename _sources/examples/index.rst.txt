@@ -11,6 +11,7 @@ Basic Circuits
    :maxdepth: 1
 
     Basic interfacing <Basic.ipynb>
+    Automatic Tomography <Tomography.ipynb>
 
 Analysis
 --------

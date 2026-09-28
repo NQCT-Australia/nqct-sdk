@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interfacing Basics &mdash; NQCT  documentation</title>
+  <title>Automated tomography &mdash; NQCT  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Automated tomography" href="Tomography.html" />
-    <link rel="prev" title="Worked Examples" href="index.html" /> 
+    <link rel="next" title="QuantWare Soprano D2" href="../devices/QuantWareSopranoD2.html" />
+    <link rel="prev" title="Interfacing Basics" href="Basic.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,8 +52,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Worked examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#basic-circuits">Basic Circuits</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#"> Basic interfacing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Tomography.html"> Automatic Tomography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Basic.html"> Basic interfacing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Automatic Tomography</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#analysis">Analysis</a></li>
@@ -84,9 +84,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Worked Examples</a></li>
-      <li class="breadcrumb-item active">Interfacing Basics</li>
+      <li class="breadcrumb-item active">Automated tomography</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/examples/Basic.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/examples/Tomography.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -94,49 +94,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="Interfacing-Basics">
-<h1>Interfacing Basics<a class="headerlink" href="#Interfacing-Basics" title="Link to this heading"></a></h1>
+  <section id="Automated-tomography">
+<h1>Automated tomography<a class="headerlink" href="#Automated-tomography" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">nqct.utils.QuantumSession</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumSession</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from nqct.utils.QuantumSession import QuantumSession
 
-<span class="n">qs</span> <span class="o">=</span> <span class="n">QuantumSession</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"PASTE_API_KEY_HERE"</span><span class="p">,</span> <span class="n">storage_path</span><span class="o">=</span><span class="s1">'temp/'</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">list_backends</span><span class="p">();</span>
-<span class="c1">#Copy over the desired backend from the given list</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">select_backend</span><span class="p">(</span><span class="s1">'quantware_soprano_d2'</span><span class="p">)</span>
+# qs = QuantumSession(api_key="PASTE_API_KEY_HERE", storage_path='temp/')
+qs = QuantumSession(api_key="nqct_DkCeGfxJifFdsqXJiuo9dWT6GYoTBcp9MQyqL3EFOoY", storage_path='temp/')
+qs.list_backends();
+#Copy over the desired backend from the given list
+qs.select_backend('quantware_soprano_d2')
 </pre></div>
 </div>
 </div>
+<p>There is a utility to automatically generate the measurements required to perform tomography on a given state. The QASM script just has the commands required to create the state. The utility automatically adds the required headers and <code class="docutils literal notranslate"><span class="pre">qubit</span></code>/<code class="docutils literal notranslate"><span class="pre">bit</span></code> declarations and the different tomography pulses and measurement operations. The resulting measurements are stored in a bit register of size <span class="math notranslate nohighlight">\(N\cdot4^N\)</span> for <span class="math notranslate nohighlight">\(N\)</span> qubits, where the entries corresponding to the tomography measurements:</p>
+<ul class="simple">
+<li><p>The register <code class="docutils literal notranslate"><span class="pre">c</span></code> is split into groups of <code class="docutils literal notranslate"><span class="pre">N</span></code> where they are the individual qubit measurements for a given measurement</p></li>
+<li><p>Each group of <code class="docutils literal notranslate"><span class="pre">N</span></code> corresponds to the archetypal tomography measurements of Pauli operators. For example, with 2 qubits, the sequence would be: II, IX, IY, IZ, XI, XX, XY, XZ, YI, …, ZY, ZZ (16 measurements in this case).</p></li>
+</ul>
+<p>So let’s take a simple example with a 2-qubit Bell state:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_script</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"""</span>
-<span class="s2">OPENQASM 3;</span>
-<span class="s2">include 'stdgates_transmon_fixed_coupler.inc';</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sqdtoolz.Utilities.DataDensityMatrix import DataDensityMatrix
 
-<span class="s2">bit[2] c;</span>
-<span class="s2">qubit[2] q;</span>
+my_script = r"""
+h q[0];
+cx q[0], q[1];
+"""
+my_script = DataDensityMatrix.generate_tomography_qasm(my_script, num_qubits=2, qasm_include="stdgates_transmon_fixed_coupler.inc")
 
-<span class="s2">z q[0];</span>
-<span class="s2">rx(pi/2) q[0];</span>
-
-<span class="s2">z q[1];</span>
-<span class="s2">ry(pi/2) q[1];</span>
-
-<span class="s2">ctrl @ z q[0], q[1];</span>
-
-<span class="s2">z q[1];</span>
-<span class="s2">ry(pi/2) q[1];</span>
-
-<span class="s2">delay[0]  q[0], q[1];</span>
-<span class="s2">c[0] = measure q[0];</span>
-<span class="s2">c[1] = measure q[1];</span>
-<span class="s2">"""</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">set_qasm</span><span class="p">(</span><span class="n">my_script</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">get_qregs_in_qasm</span><span class="p">()</span>
+qs.set_qasm(my_script)
+print(my_script)
 </pre></div>
 </div>
 </div>
@@ -144,7 +137,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qs.validate()
 </pre></div>
 </div>
 </div>
@@ -152,10 +145,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">set_acquisition_type</span><span class="p">(</span><span class="s1">'DISCRIMINATION'</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">set_averaging_type</span><span class="p">(</span><span class="s1">'SingleShotCounts'</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">set_num_shots</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">set_shot_repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qs.set_acquisition_type('DISCRIMINATION')
+qs.set_averaging_type('SingleShotCounts')
+qs.set_num_shots(1024)
+qs.set_shot_repeat(1)
 </pre></div>
 </div>
 </div>
@@ -163,7 +156,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leRes</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>leRes = qs.run()
 </pre></div>
 </div>
 </div>
@@ -171,7 +164,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leRes</span><span class="o">.</span><span class="n">get_inner_slicing_vars</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>leRes.get_inner_slicing_vars()
 </pre></div>
 </div>
 </div>
@@ -179,7 +172,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cur_arrs</span> <span class="o">=</span> <span class="n">leRes</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sqdtoolz.Utilities.DataDensityMatrix import DataDensityMatrix
+shots = leRes.get_data('c')
+ddm = DataDensityMatrix.fromDataViewer(leRes, [np.linalg.inv(readout_confusion) for readout_confusion in readout_confusion_matrices])
+fidelity = ddm.get_fidelity_pure_state(np.array([1,0,0,1])/np.sqrt(2))
 </pre></div>
 </div>
 </div>
@@ -187,7 +183,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -197,8 +193,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Worked Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Tomography.html" class="btn btn-neutral float-right" title="Automated tomography" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Basic.html" class="btn btn-neutral float-left" title="Interfacing Basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../devices/QuantWareSopranoD2.html" class="btn btn-neutral float-right" title="QuantWare Soprano D2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
