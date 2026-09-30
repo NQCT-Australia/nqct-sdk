@@ -97,7 +97,7 @@ where the three anti-crossings appear at:
 
 - :math:`J`: :math:`\omega_1\approx\omega_2`
 - :math:`\zeta_{02}`: :math:`\omega_1\approx\omega_2-\alpha_2`
-- :math:`\zeta_{20}`: :math:`\omega_2\approx\omega_1+\alpha_1`
+- :math:`\zeta_{20}`: :math:`\omega_1\approx\omega_2+\alpha_1`
 
 with :math:`\omega_i` being the qubit frequency and :math:`\alpha_i` the anharmonicity of the respective qubits. A typical controlled-phase (e.g. CZ) operation involves tuning to the :math:`\zeta_{20}` anti-crossing to perturb the :math:`\lvert11\rangle` state. Note that when including the individual qubit Hamiltonians, a large energy difference between the qubits will disable the two-qubit gate
 
@@ -111,9 +111,21 @@ The typical two-qubit parameters are:
      - :math:`J` (MHz)
      - :math:`\zeta_{02}` (MHz)
      - :math:`\zeta_{20}` (MHz)
-   * - Q0/Q1
-     - 0
-     - 0
-     - 0
+   * - Q2/Q0
+     - NaN
+     - 8.32
+     - 8.51
+   * - Q2/Q1
+     - NaN
+     - 8.20
+     - 9.03
+   * - Q2/Q3
+     - NaN
+     - 7.75
+     - 7.75
+   * - Q2/Q4
+     - NaN
+     - 10.8
+     - 10.8
 
 For the latest set of device parameters, refer to the NQCT cloud dashboard.
