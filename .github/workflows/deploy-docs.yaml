@@ -53,13 +53,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -e . 
-        pip install sphinx sphinx_rtd_theme nbsphinx
+        pip install sphinx sphinx_rtd_theme nbsphinx ipython
 
     - name: Build the documentation
       run: |
         sphinx-build -b html doc-sphinx/source doc-sphinx/_build/html
-        # Create a .nojekyll file in the build output folder so GitHub Pages doesn't ignore underscore folders
-        touch doc-sphinx/_build/html/.nojekyll
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
