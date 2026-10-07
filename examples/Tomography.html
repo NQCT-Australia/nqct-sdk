@@ -100,13 +100,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from nqct.utils.QuantumSession import QuantumSession
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">nqct.utils.QuantumSession</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumSession</span>
 
-api_key = input('Enter API Key') #&lt;---PASTE_API_KEY_HERE instead of the input(...)
-qs = QuantumSession(api_key=api_key, storage_path='temp/')
-qs.list_backends();
-#Copy over the desired backend from the given list
-qs.select_backend('quantware_soprano_d2')
+<span class="n">api_key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'Enter API Key'</span><span class="p">)</span> <span class="c1">#&lt;---PASTE_API_KEY_HERE instead of the input(...)</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">QuantumSession</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">storage_path</span><span class="o">=</span><span class="s1">'temp/'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">list_backends</span><span class="p">();</span>
+<span class="c1">#Copy over the desired backend from the given list</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">select_backend</span><span class="p">(</span><span class="s1">'quantware_soprano_d2'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -164,17 +164,17 @@ qs.select_backend('quantware_soprano_d2')
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sqdtoolz.Utilities.DataDensityMatrix import DataDensityMatrix
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sqdtoolz.Utilities.DataDensityMatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataDensityMatrix</span>
 
-my_script = r"""
-reset q;
-h q[0];
-cx q[0], q[1];
-"""
-my_script = DataDensityMatrix.generate_tomography_qasm(my_script, num_qubits=2, qasm_include="stdgates_transmon_fixed_coupler.inc")
+<span class="n">my_script</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"""</span>
+<span class="s2">reset q;</span>
+<span class="s2">h q[0];</span>
+<span class="s2">cx q[0], q[1];</span>
+<span class="s2">"""</span>
+<span class="n">my_script</span> <span class="o">=</span> <span class="n">DataDensityMatrix</span><span class="o">.</span><span class="n">generate_tomography_qasm</span><span class="p">(</span><span class="n">my_script</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">qasm_include</span><span class="o">=</span><span class="s2">"stdgates_transmon_fixed_coupler.inc"</span><span class="p">)</span>
 
-qs.set_qasm(my_script)
-# print(my_script)
+<span class="n">qs</span><span class="o">.</span><span class="n">set_qasm</span><span class="p">(</span><span class="n">my_script</span><span class="p">)</span>
+<span class="c1"># print(my_script)</span>
 </pre></div>
 </div>
 </div>
@@ -183,8 +183,8 @@ qs.set_qasm(my_script)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qs.set_qreg_physical_mapping({('q',0):2, ('q',1):0})
-# qs.validate()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">set_qreg_physical_mapping</span><span class="p">({(</span><span class="s1">'q'</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">'q'</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="mi">0</span><span class="p">})</span>
+<span class="c1"># qs.validate()</span>
 </pre></div>
 </div>
 </div>
@@ -192,10 +192,10 @@ qs.set_qasm(my_script)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qs.set_acquisition_type('DISCRIMINATION')
-qs.set_averaging_type('SingleShotCounts')
-qs.set_num_shots(1024)
-qs.set_shot_repeat(1)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">set_acquisition_type</span><span class="p">(</span><span class="s1">'DISCRIMINATION'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_averaging_type</span><span class="p">(</span><span class="s1">'SingleShotCounts'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_num_shots</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_shot_repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -204,7 +204,7 @@ qs.set_shot_repeat(1)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>leRes = qs.run()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leRes</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -213,16 +213,16 @@ qs.set_shot_repeat(1)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sqdtoolz.Utilities.DataDensityMatrix import DataDensityMatrix
-import numpy as np
-shots = leRes.get_data('c')
-ddm = DataDensityMatrix.fromDataViewer(leRes, use_readout_correction=True)
-purity = ddm.get_purity()
-fidelity = ddm.get_fidelity_pure_state(np.array([1,0,0,1])/np.sqrt(2))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sqdtoolz.Utilities.DataDensityMatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataDensityMatrix</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="n">leRes</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
+<span class="n">ddm</span> <span class="o">=</span> <span class="n">DataDensityMatrix</span><span class="o">.</span><span class="n">fromDataViewer</span><span class="p">(</span><span class="n">leRes</span><span class="p">,</span> <span class="n">use_readout_correction</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">purity</span> <span class="o">=</span> <span class="n">ddm</span><span class="o">.</span><span class="n">get_purity</span><span class="p">()</span>
+<span class="n">fidelity</span> <span class="o">=</span> <span class="n">ddm</span><span class="o">.</span><span class="n">get_fidelity_pure_state</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-ddm.plot2D(np.array([1,0,0,1])/np.sqrt(2))
+<span class="n">ddm</span><span class="o">.</span><span class="n">plot2D</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-print(f"Purity={purity*100:.3g}%\nFidelity={fidelity*100:.3g}%")
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Purity=</span><span class="si">{</span><span class="n">purity</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">Fidelity=</span><span class="si">{</span><span class="n">fidelity</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

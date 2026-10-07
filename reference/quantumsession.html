@@ -55,7 +55,31 @@
 <p class="caption" role="heading"><span class="caption-text">Interface Classes</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">QuantumSession</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">QuantumSession</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession"><code class="docutils literal notranslate"><span class="pre">QuantumSession</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.clear_numpy_waveforms"><code class="docutils literal notranslate"><span class="pre">clear_numpy_waveforms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.close"><code class="docutils literal notranslate"><span class="pre">close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.declare_numpy_waveform"><code class="docutils literal notranslate"><span class="pre">declare_numpy_waveform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.download_bundle"><code class="docutils literal notranslate"><span class="pre">download_bundle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.get_final_qasm"><code class="docutils literal notranslate"><span class="pre">get_final_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.get_qregs_in_qasm"><code class="docutils literal notranslate"><span class="pre">get_qregs_in_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.get_results_by_uuid"><code class="docutils literal notranslate"><span class="pre">get_results_by_uuid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.list_backends"><code class="docutils literal notranslate"><span class="pre">list_backends()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.load_qasm"><code class="docutils literal notranslate"><span class="pre">load_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.reconnect"><code class="docutils literal notranslate"><span class="pre">reconnect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.select_backend"><code class="docutils literal notranslate"><span class="pre">select_backend()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_acquisition_type"><code class="docutils literal notranslate"><span class="pre">set_acquisition_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_averaging_type"><code class="docutils literal notranslate"><span class="pre">set_averaging_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_num_shots"><code class="docutils literal notranslate"><span class="pre">set_num_shots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_qasm"><code class="docutils literal notranslate"><span class="pre">set_qasm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_qreg_physical_mapping"><code class="docutils literal notranslate"><span class="pre">set_qreg_physical_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_shot_repeat"><code class="docutils literal notranslate"><span class="pre">set_shot_repeat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -88,6 +112,116 @@
   <section id="quantumsession">
 <span id="class-quantum-session"></span><h1>QuantumSession<a class="headerlink" href="#quantumsession" title="Link to this heading"></a></h1>
 <p>The <cite>QuantumSession</cite> class is the main interface class.</p>
+<dl class="py class" id="module-nqct.utils.QuantumSession">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">QuantumSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'temp/'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>If api_key is None, it will resort to the saved key on the system…</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.clear_numpy_waveforms">
+<span class="sig-name descname"><span class="pre">clear_numpy_waveforms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.clear_numpy_waveforms" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.close" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.declare_numpy_waveform">
+<span class="sig-name descname"><span class="pre">declare_numpy_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wfm_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numpy_array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.declare_numpy_waveform" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.download_bundle">
+<span class="sig-name descname"><span class="pre">download_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.download_bundle" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/jobs/{id}/artifacts/bundle</span></code> — download hardware result zip.</p>
+<p>Fetches the job then calls <code class="docutils literal notranslate"><span class="pre">Job.download_bundle</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.get_final_qasm">
+<span class="sig-name descname"><span class="pre">get_final_qasm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.get_final_qasm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.get_qregs_in_qasm">
+<span class="sig-name descname"><span class="pre">get_qregs_in_qasm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.get_qregs_in_qasm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.get_results_by_uuid">
+<span class="sig-name descname"><span class="pre">get_results_by_uuid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.get_results_by_uuid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.list_backends">
+<span class="sig-name descname"><span class="pre">list_backends</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Backend</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.list_backends" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.load_qasm">
+<span class="sig-name descname"><span class="pre">load_qasm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.load_qasm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.reconnect">
+<span class="sig-name descname"><span class="pre">reconnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.reconnect" title="Link to this definition"></a></dt>
+<dd><p>If api_key is blank, it will resort to the saved key on the system…</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auto_validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dont_download_raw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.run" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.select_backend">
+<span class="sig-name descname"><span class="pre">select_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leBackend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Backend</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.select_backend" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.set_acquisition_type">
+<span class="sig-name descname"><span class="pre">set_acquisition_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acq_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_acquisition_type" title="Link to this definition"></a></dt>
+<dd><p>Set hardware acquisition_type (Discrimination | Integration | Raw).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.set_averaging_type">
+<span class="sig-name descname"><span class="pre">set_averaging_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">averaging</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_averaging_type" title="Link to this definition"></a></dt>
+<dd><p>Set hardware averaging (AverageRepetitions | SingleShotCounts).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.set_num_shots">
+<span class="sig-name descname"><span class="pre">set_num_shots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_shots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_num_shots" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.set_qasm">
+<span class="sig-name descname"><span class="pre">set_qasm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qasm_script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_qasm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.set_qreg_physical_mapping">
+<span class="sig-name descname"><span class="pre">set_qreg_physical_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_qreg_physical_mapping" title="Link to this definition"></a></dt>
+<dd><p>A dictionary that maps the qreg to the physical qubit index. For example, q[0] mapped onto $1 becomes the key-value pair (q,0):1.
+An empty dictionary implies that it is the default mapping (order of qregs defined map onto the physical qubits directly)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.set_shot_repeat">
+<span class="sig-name descname"><span class="pre">set_shot_repeat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shot_repeat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_shot_repeat" title="Link to this definition"></a></dt>
+<dd><p>Set the number of software repeats for hardware execution.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.validate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 
