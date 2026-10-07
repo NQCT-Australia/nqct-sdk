@@ -195,6 +195,7 @@
 [(&#39;q&#39;, 0), (&#39;q&#39;, 1), (&#39;q&#39;, 2)]
 </pre></div></div>
 </div>
+<p>The QASM registers need to be mapped onto physical qubits. They are by default mapped onto the physical qubits (<code class="docutils literal notranslate"><span class="pre">$0</span></code>,<code class="docutils literal notranslate"><span class="pre">$1</span></code>,<code class="docutils literal notranslate"><span class="pre">$2</span></code>…) in the order of their register declarations, but one may explicitly set them via (<strong>optionally</strong> validating the configuration soonafter):</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -439,6 +440,7 @@
 </table>
 </div></div>
 </div>
+<p>Setup readout parameters</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -450,6 +452,7 @@
 </pre></div>
 </div>
 </div>
+<p>Execute the circuit on the actual backend (note that it will automatically validate the circuit and then send it for execution):</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -473,7 +476,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PosixPath(&#39;temp/68680b78-b82f-4f16-8b1c-a54981059877&#39;)
+PosixPath(&#39;temp/6a8aa4ea-8389-482a-a372-a69348362710&#39;)
 </pre></div></div>
 </div>
 <p>The dataset will be sliced differently depending on the acquisition settings. Nonetheless, the slicing parameters can be queried as:</p>
@@ -503,7 +506,7 @@ PosixPath(&#39;temp/68680b78-b82f-4f16-8b1c-a54981059877&#39;)
 </pre></div>
 </div>
 </div>
-<p>There are handy visualisation functions where one may plot</p>
+<p>There are handy visualisation functions where one may plot histograms:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -516,7 +519,7 @@ PosixPath(&#39;temp/68680b78-b82f-4f16-8b1c-a54981059877&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_Basic_13_0.png" src="../_images/examples_Basic_13_0.png" />
+<img alt="../_images/examples_Basic_16_0.png" src="../_images/examples_Basic_16_0.png" />
 </div>
 </div>
 <p>For a set of two qubits, it’s often handy to see the correlated truth table. This can be readily plotted (using the registers 0 and 1 in this example), with the feature disabled if setting <code class="docutils literal notranslate"><span class="pre">plot_2D_histogram=False</span></code>:</p>
@@ -532,7 +535,7 @@ PosixPath(&#39;temp/68680b78-b82f-4f16-8b1c-a54981059877&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/examples_Basic_15_0.png" src="../_images/examples_Basic_15_0.png" />
+<img alt="../_images/examples_Basic_18_0.png" src="../_images/examples_Basic_18_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
