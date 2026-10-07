@@ -96,8 +96,8 @@
              
   <section id="Automated-tomography">
 <h1>Automated tomography<a class="headerlink" href="#Automated-tomography" title="Link to this heading"></a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from nqct.utils.QuantumSession import QuantumSession
@@ -109,39 +109,86 @@ qs.select_backend('quantware_soprano_d2')
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Backend ID</th>
+      <th>Qubits</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Qiskit Aer Simulator</td>
+      <td>aer_simulator</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>QuantWare Soprano D2</td>
+      <td>quantware_soprano_d2</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
 <p>There is a utility to automatically generate the measurements required to perform tomography on a given state. The QASM script just has the commands required to create the state. The utility automatically adds the required headers and <code class="docutils literal notranslate"><span class="pre">qubit</span></code>/<code class="docutils literal notranslate"><span class="pre">bit</span></code> declarations and the different tomography pulses and measurement operations. The resulting measurements are stored in a bit register of size <span class="math notranslate nohighlight">\(N\cdot4^N\)</span> for <span class="math notranslate nohighlight">\(N\)</span> qubits, where the entries corresponding to the tomography measurements:</p>
 <ul class="simple">
 <li><p>The register <code class="docutils literal notranslate"><span class="pre">c</span></code> is split into groups of <code class="docutils literal notranslate"><span class="pre">N</span></code> where they are the individual qubit measurements for a given measurement</p></li>
 <li><p>Each group of <code class="docutils literal notranslate"><span class="pre">N</span></code> corresponds to the archetypal tomography measurements of Pauli operators. For example, with 2 qubits, the sequence would be: II, IX, IY, IZ, XI, XX, XY, XZ, YI, …, ZY, ZZ (16 measurements in this case).</p></li>
 </ul>
-<p>So let’s take a simple example with a 2-qubit Bell state:</p>
+<p>So let’s take a simple example with a 2-qubit Bell state (uncomment the print statement to view the generated script):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sqdtoolz.Utilities.DataDensityMatrix import DataDensityMatrix
 
 my_script = r"""
+reset q;
 h q[0];
 cx q[0], q[1];
 """
 my_script = DataDensityMatrix.generate_tomography_qasm(my_script, num_qubits=2, qasm_include="stdgates_transmon_fixed_coupler.inc")
 
 qs.set_qasm(my_script)
-print(my_script)
+# print(my_script)
+</pre></div>
+</div>
+</div>
+<p>Set the mapping of the physical qubits to which to make this sample Bell state (using physical qubits on control and target being 2 and 0):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qs.set_qreg_physical_mapping({('q',0):2, ('q',1):0})
+# qs.validate()
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qs.validate()
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>qs.set_acquisition_type('DISCRIMINATION')
@@ -151,39 +198,47 @@ qs.set_shot_repeat(1)
 </pre></div>
 </div>
 </div>
+<p>Execute the circuit:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>leRes = qs.run()
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>leRes.get_inner_slicing_vars()
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<p>Plot the results, while extracting the purity and fidelity (use <code class="docutils literal notranslate"><span class="pre">plot3D</span></code> for the <em>cityscape</em> plots):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sqdtoolz.Utilities.DataDensityMatrix import DataDensityMatrix
+import numpy as np
 shots = leRes.get_data('c')
-ddm = DataDensityMatrix.fromDataViewer(leRes, [np.linalg.inv(readout_confusion) for readout_confusion in readout_confusion_matrices])
+ddm = DataDensityMatrix.fromDataViewer(leRes, use_readout_correction=True)
+purity = ddm.get_purity()
 fidelity = ddm.get_fidelity_pure_state(np.array([1,0,0,1])/np.sqrt(2))
+
+ddm.plot2D(np.array([1,0,0,1])/np.sqrt(2))
+
+print(f"Purity={purity*100:.3g}%\nFidelity={fidelity*100:.3g}%")
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Purity=89.3%
+Fidelity=91.2%
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_Tomography_10_1.png" src="../_images/examples_Tomography_10_1.png" />
 </div>
 </div>
 </section>
