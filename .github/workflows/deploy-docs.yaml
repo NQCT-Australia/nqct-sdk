@@ -45,7 +45,7 @@ jobs:
           libxcb-xfixes0
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.11'
 
@@ -58,6 +58,8 @@ jobs:
     - name: Build the documentation
       run: |
         sphinx-build -b html doc-sphinx/source doc-sphinx/_build/html
+        # Create a .nojekyll file in the build output folder so GitHub Pages doesn't ignore underscore folders
+        touch doc-sphinx/_build/html/.nojekyll
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
