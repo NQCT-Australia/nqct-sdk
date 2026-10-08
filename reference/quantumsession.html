@@ -74,6 +74,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_num_shots"><code class="docutils literal notranslate"><span class="pre">set_num_shots()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_qasm"><code class="docutils literal notranslate"><span class="pre">set_qasm()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_qreg_physical_mapping"><code class="docutils literal notranslate"><span class="pre">set_qreg_physical_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_readout_states"><code class="docutils literal notranslate"><span class="pre">set_readout_states()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.set_shot_repeat"><code class="docutils literal notranslate"><span class="pre">set_shot_repeat()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nqct.utils.QuantumSession.QuantumSession.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
 </ul>
@@ -207,6 +208,12 @@
 <span class="sig-name descname"><span class="pre">set_qreg_physical_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_qreg_physical_mapping" title="Link to this definition"></a></dt>
 <dd><p>A dictionary that maps the qreg to the physical qubit index. For example, q[0] mapped onto $1 becomes the key-value pair (q,0):1.
 An empty dictionary implies that it is the default mapping (order of qregs defined map onto the physical qubits directly)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nqct.utils.QuantumSession.QuantumSession.set_readout_states">
+<span class="sig-name descname"><span class="pre">set_readout_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">readout_states</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#nqct.utils.QuantumSession.QuantumSession.set_readout_states" title="Link to this definition"></a></dt>
+<dd><p>Set hardware readout_states (ReadoutGE | ReadoutGEF).</p>
 </dd></dl>
 
 <dl class="py method">
