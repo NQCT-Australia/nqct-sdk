@@ -30,6 +30,7 @@ def build_execution_config(
     acquisition_type: str | None = None,
     averaging: str | None = None,
     shot_repeat: int | None = None,
+    readout_states: str | None = None,
     readout_mapping: dict[str, Any] | None = None,
     pulse_calibration_id: str | None = None,
 ) -> dict[str, Any]:
@@ -67,6 +68,7 @@ def build_execution_config(
                 "acquisition_type": acquisition_type,
                 "averaging": averaging,
                 "shot_repeat": shot_repeat,
+                "readout_states": readout_states,
                 "readout_mapping": readout_mapping,
                 "pulse_calibration_id": pulse_calibration_id,
             }
@@ -135,6 +137,7 @@ class JobsManager:
         acquisition_type: str | None = None,
         averaging: str | None = None,
         shot_repeat: int | None = None,
+        readout_states: str | None = None,
         readout_mapping: dict[str, Any] | None = None,
         pulse_calibration_id: str | None = None,
     ) -> Job:
@@ -146,8 +149,8 @@ class JobsManager:
         for hardware execution. If ``execution_config`` is passed explicitly, it is
         sent as-is and the ``fake_backend_name``/``optimization_level``/
         ``custom_noise_model``/``qubit_mapping``/``gate_substitutions``/
-        ``acquisition_type``/``averaging``/``shot_repeat``/``readout_mapping``/
-        ``pulse_calibration_id`` kwargs are ignored.
+        ``acquisition_type``/``averaging``/``shot_repeat``/``readout_states``/
+        ``readout_mapping``/``pulse_calibration_id`` kwargs are ignored.
         """
         if execution_config is None:
             execution_config = build_execution_config(
@@ -159,6 +162,7 @@ class JobsManager:
                 acquisition_type=acquisition_type,
                 averaging=averaging,
                 shot_repeat=shot_repeat,
+                readout_states=readout_states,
                 readout_mapping=readout_mapping,
                 pulse_calibration_id=pulse_calibration_id,
             )

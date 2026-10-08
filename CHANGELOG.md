@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Hardware `readout_states` (`ReadoutGE` | `ReadoutGEF`) on `submit_job` / `build_execution_config` / `HardwareExecutionConfig`, with case-insensitive normalization; omitted when unset (API default `ReadoutGE`).
+- `QuantumSession.set_readout_states` wired through to `submit_job` (session default `ReadoutGE`).
+- Walkthrough / lab example cells include `readout_states` alongside other hardware measurement params.
 - `Job.download_bundle()` / `QuantumSession.download_bundle()` for `GET /jobs/{id}/artifacts/bundle` (stream hardware result zip to a local path).
 - Walkthrough cells demonstrating hardware artifact bundle download.
 - Hardware `shot_repeat` (software repeat) on `submit_job` / `build_execution_config` / `HardwareExecutionConfig` (integer ≥ 1; omitted when unset).
@@ -44,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `JobsManager.submit()` / `NQCTClient.submit_job()` — `POST /jobs` with OpenQASM 3, `execution_config`, and `source` (`direct_qasm` | `api`).
-- `Job.booking_bypass` and `Job.source` fields aligned with Unit 07 program-centric jobs API.
+- `Job.booking_bypass` and `Job.source` fields aligned with the production jobs API.
 - `client.jobs(source=...)` filter parameter.
 - Example `examples/submit_job.py`.
 
