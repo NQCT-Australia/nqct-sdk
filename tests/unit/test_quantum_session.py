@@ -29,9 +29,13 @@ def _install_quantum_session_stubs() -> None:
     _parser = ModuleType("sqdtoolz.Utilities.OpenQASM.ParserOpenQASM")
     _sched = ModuleType("sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI")
     _file_json = ModuleType("sqdtoolz.Utilities.FileJSON")
+    _sqd_exp = ModuleType("sqdtoolz.Experiments")
+    _sqd_exp_ex = ModuleType("sqdtoolz.Experiments.Experimental")
+    _viewer = ModuleType("sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer")
     _parser.ParserOpenQASM = MagicMock  # type: ignore[attr-defined]
     _sched.ScheduleParametersJSONConfigZI = MagicMock  # type: ignore[attr-defined]
     _file_json.SerialiseJSON = MagicMock  # type: ignore[attr-defined]
+    _viewer.ExpZIQASMDataViewer = MagicMock  # type: ignore[attr-defined]
     sys.modules.setdefault("sqdtoolz", _sqd)
     sys.modules.setdefault("sqdtoolz.Utilities", _sqd_utils)
     sys.modules.setdefault("sqdtoolz.Utilities.OpenQASM", _sqd_oqasm)
@@ -40,6 +44,11 @@ def _install_quantum_session_stubs() -> None:
         "sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI", _sched
     )
     sys.modules.setdefault("sqdtoolz.Utilities.FileJSON", _file_json)
+    sys.modules.setdefault("sqdtoolz.Experiments", _sqd_exp)
+    sys.modules.setdefault("sqdtoolz.Experiments.Experimental", _sqd_exp_ex)
+    sys.modules.setdefault(
+        "sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer", _viewer
+    )
     sys.modules.setdefault("IPython", ModuleType("IPython"))
     _ipy_display = ModuleType("IPython.display")
     _ipy_display.display = MagicMock  # type: ignore[attr-defined]
@@ -80,7 +89,7 @@ def test_quantum_session_run_passes_acquisition_and_averaging(quantum_session_cl
     session.set_acquisition_type("Integration")
     session.set_averaging_type("SingleShotCounts")
 
-    session.run(auto_validate=False)
+    session.run(auto_validate=False, dont_download_raw=True)
 
     body = json.loads(route.calls.last.request.content.decode())
     hardware = body["execution_config"]["hardware"]
@@ -112,10 +121,40 @@ def test_quantum_session_run_passes_shot_repeat(quantum_session_cls) -> None:
     session.set_qasm(QASM)
     session.set_shot_repeat(5)
 
-    session.run(auto_validate=False)
+    session.run(auto_validate=False, dont_download_raw=True)
 
     body = json.loads(route.calls.last.request.content.decode())
     assert body["execution_config"]["hardware"]["shot_repeat"] == 5
+    session.close()
+
+
+@respx.mock
+def test_quantum_session_run_passes_readout_states(quantum_session_cls) -> None:
+    session = quantum_session_cls(api_key="nqct_test")
+    session._client = session._client.__class__(url=BASE, api_key="nqct_test")
+
+    route = respx.post(f"{BASE}/jobs").mock(
+        return_value=httpx.Response(201, json=JOB_SUBMIT_RESPONSE)
+    )
+    done = dict(DIRECT_QASM_JOB_ITEM)
+    done["status"] = "done"
+    done["results"] = {"counts": {"0": 1}}
+    respx.get(f"{BASE}/jobs/{JOB_ID}").mock(return_value=httpx.Response(200, json=done))
+    respx.get(f"{BASE}/jobs/{JOB_ID}/results").mock(
+        return_value=httpx.Response(200, json={"results": {"counts": {"0": 1}}})
+    )
+
+    backend = MagicMock()
+    backend.id = "hardware-qpu-1"
+    backend.type = "simulator"
+    session._sel_backend = backend
+    session.set_qasm(QASM)
+    session.set_readout_states("ReadoutGEF")
+
+    session.run(auto_validate=False, dont_download_raw=True)
+
+    body = json.loads(route.calls.last.request.content.decode())
+    assert body["execution_config"]["hardware"]["readout_states"] == "ReadoutGEF"
     session.close()
 
 
@@ -159,8 +198,10 @@ def test_quantum_session_setters_normalize_case(quantum_session_cls) -> None:
     session = quantum_session_cls(api_key="nqct_test")
     session.set_acquisition_type("raw")
     session.set_averaging_type("averagerepetitions")
+    session.set_readout_states("readoutgef")
     assert session._acquisition_type == "Raw"
     assert session._averaging == "AverageRepetitions"
+    assert session._readout_states == "ReadoutGEF"
     session.close()
 
 

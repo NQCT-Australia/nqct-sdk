@@ -7,9 +7,11 @@ from nqct.models.execution import (
     ExecutionConfig,
     HardwareExecutionConfig,
     QubitMappingEntry,
+    ReadoutStates,
     SimulatorExecutionConfig,
     normalize_acquisition_type,
     normalize_averaging,
+    normalize_readout_states,
 )
 from nqct.models.function import Function
 from nqct.models.job import Job
@@ -24,7 +26,9 @@ __all__ = [
     "HardwareExecutionConfig",
     "Job",
     "QubitMappingEntry",
+    "ReadoutStates",
     "SimulatorExecutionConfig",
     "normalize_acquisition_type",
     "normalize_averaging",
+    "normalize_readout_states",
 ]

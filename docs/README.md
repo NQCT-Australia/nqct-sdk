@@ -1,16 +1,17 @@
 # nqct-sdk — Python client for NQCT Cloud
 
-Python SDK for [NQCT Cloud](https://github.com/NQCT-Australia/nqct-cloud). Use it from notebooks, scripts, and CI to submit OpenQASM 3, monitor jobs, discover backends, and run circuits against the same REST API as the web dashboard.
+Python SDK for [NQCT Cloud](https://cloud.nqct.org). Use it from notebooks, scripts, and CI to submit OpenQASM 3, monitor jobs, discover backends, and run circuits against the same REST API as the web dashboard.
 
 **Status:** Phase 1 (MVP) + `submit_job`. See [CHANGELOG](CHANGELOG.md).
 
-**Product spec (authoritative contract):** [nqct-cloud](https://github.com/NQCT-Australia/nqct-cloud/blob/main/references/specs/14-python-sdk.md) `references/specs/14-python-sdk.md`
+See also [PLATFORM_REFERENCE.md](PLATFORM_REFERENCE.md).
 
 
-| Environment          | URL                                                                                                            |
-| -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Production API**   | `https://api.nqct.org/api/v1` ([docs](https://api.nqct.org/docs), UI [cloud.nqct.org](https://cloud.nqct.org)) |
-| Local (`nqct start`) | `http://localhost:8000/api/v1`                                                                                 |
+| Environment          | URL                                            |
+| -------------------- | ---------------------------------------------- |
+| **Production API**   | `https://api.nqct.org/api/v1`                  |
+| Web portal           | [cloud.nqct.org](https://cloud.nqct.org)       |
+| Local (`nqct start`) | `http://localhost:8000/api/v1`                 |
 
 
 
@@ -205,12 +206,12 @@ pytest tests/unit
 
 
 
-## Related repositories
+## Related resources
 
 
-| Repo                                                       | Role                                      |
-| ---------------------------------------------------------- | ----------------------------------------- |
-| [nqct-cloud](https://github.com/NQCT-Australia/nqct-cloud) | Platform API, context files, Unit 14 spec |
-| **nqct-sdk** (this repo)                                   | `pip install nqct`                        |
+| Resource                                              | Role                         |
+| ----------------------------------------------------- | ---------------------------- |
+| [NQCT Cloud](https://cloud.nqct.org)                   | Web portal                   |
+| **nqct-sdk** (this repo)                              | `pip install nqct`           |
 
 

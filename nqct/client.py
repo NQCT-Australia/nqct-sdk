@@ -29,8 +29,7 @@ DEFAULT_API_URL = "https://api.nqct.org/api/v1"
 class NQCTClient:
     """Client for the NQCT Cloud REST API.
 
-    Maps to platform routes under ``/api/v1``. See the product spec in the
-    sibling ``nqct-cloud`` repo: ``references/specs/14-python-sdk.md``.
+    Maps to platform routes under ``/api/v1``.
 
     Args:
         url: API base URL including ``/api/v1``. Defaults to production
@@ -191,6 +190,7 @@ class NQCTClient:
         acquisition_type: str | None = None,
         averaging: str | None = None,
         shot_repeat: int | None = None,
+        readout_states: str | None = None,
         readout_mapping: dict[str, Any] | None = None,
         pulse_calibration_id: str | None = None,
     ) -> Job:
@@ -202,7 +202,8 @@ class NQCTClient:
         sent as-is and the hardware/simulator kwargs (``fake_backend_name``,
         ``optimization_level``, ``custom_noise_model``, ``qubit_mapping``,
         ``gate_substitutions``, ``acquisition_type``, ``averaging``,
-        ``shot_repeat``, ``readout_mapping``, ``pulse_calibration_id``) are ignored.
+        ``shot_repeat``, ``readout_states``, ``readout_mapping``,
+        ``pulse_calibration_id``) are ignored.
         """
         return self._jobs.submit(
             qasm=qasm,
@@ -220,6 +221,7 @@ class NQCTClient:
             acquisition_type=acquisition_type,
             averaging=averaging,
             shot_repeat=shot_repeat,
+            readout_states=readout_states,
             readout_mapping=readout_mapping,
             pulse_calibration_id=pulse_calibration_id,
         )

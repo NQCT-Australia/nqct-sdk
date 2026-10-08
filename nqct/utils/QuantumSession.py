@@ -4,7 +4,11 @@ from pathlib import Path
 
 from nqct.client import NQCTClient
 from nqct.models.backend import Backend
-from nqct.models.execution import normalize_acquisition_type, normalize_averaging
+from nqct.models.execution import (
+    normalize_acquisition_type,
+    normalize_averaging,
+    normalize_readout_states,
+)
 from IPython.display import display
 from sqdtoolz.Utilities.OpenQASM.ParserOpenQASM import ParserOpenQASM
 import pandas as pd
@@ -30,6 +34,7 @@ class QuantumSession:
         self._acquisition_type = 'Discrimination'
         self._averaging = 'AverageRepetitions'
         self._shot_repeat = 1
+        self._readout_states = 'ReadoutGE'
         self._storage_path = storage_path
     
     def list_backends(self, print_table=True) -> list[Backend]:
@@ -82,6 +87,10 @@ class QuantumSession:
                 f"shot_repeat must be an integer >= 1, got {shot_repeat!r}"
             )
         self._shot_repeat = shot_repeat
+
+    def set_readout_states(self, readout_states: str) -> None:
+        """Set hardware readout_states (ReadoutGE | ReadoutGEF)."""
+        self._readout_states = normalize_readout_states(readout_states)
 
     def get_qregs_in_qasm(self):
         poqasm = ParserOpenQASM('', [], main_qasm=self.get_final_qasm())
@@ -142,6 +151,7 @@ class QuantumSession:
             acquisition_type=self._acquisition_type,
             averaging=self._averaging,
             shot_repeat=self._shot_repeat,
+            readout_states=self._readout_states,
             qubit_mapping=[QubitMappingEntry(qreg=x[0], qreg_index=x[1], phyq_index=self._qreg_phys_mapping[x]) for x in self._qreg_phys_mapping]
         )
         job = job.wait(timeout=3600)
