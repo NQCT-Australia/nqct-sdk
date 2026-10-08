@@ -65,6 +65,7 @@ def test_build_execution_config_hardware_kwargs_all_present() -> None:
         pulse_calibration_id="cal-42",
         acquisition_type="Integration",
         averaging="SingleShotCounts",
+        readout_states="ReadoutGEF",
     )
     assert cfg["hardware"] == {
         "qubit_mapping": mapping,
@@ -73,6 +74,7 @@ def test_build_execution_config_hardware_kwargs_all_present() -> None:
         "pulse_calibration_id": "cal-42",
         "acquisition_type": "Integration",
         "averaging": "SingleShotCounts",
+        "readout_states": "ReadoutGEF",
     }
 
 
@@ -114,6 +116,26 @@ def test_build_execution_config_invalid_acquisition_type_raises() -> None:
 def test_build_execution_config_invalid_averaging_raises() -> None:
     with pytest.raises(ValidationError):
         build_execution_config(averaging="Nope")
+
+
+def test_build_execution_config_readout_states() -> None:
+    cfg = build_execution_config(readout_states="ReadoutGEF")
+    assert cfg["hardware"]["readout_states"] == "ReadoutGEF"
+
+
+def test_build_execution_config_blank_readout_states_is_omitted() -> None:
+    cfg = build_execution_config(readout_states="")
+    assert "readout_states" not in cfg["hardware"]
+
+
+def test_build_execution_config_normalizes_readout_states_case() -> None:
+    cfg = build_execution_config(readout_states="readoutgef")
+    assert cfg["hardware"]["readout_states"] == "ReadoutGEF"
+
+
+def test_build_execution_config_invalid_readout_states_raises() -> None:
+    with pytest.raises(ValidationError):
+        build_execution_config(readout_states="Nope")
 
 
 def test_build_execution_config_invalid_optimization_level_raises() -> None:
