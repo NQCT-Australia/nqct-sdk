@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ramsey Experiment &mdash; NQCT  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+    <link rel="shortcut icon" href="../_static/nqct-icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="QuantWare Soprano D2" href="../devices/QuantWareSopranoD2.html" />
+    <link rel="prev" title="Rabi Experiment" href="PLC_Rabi.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NQCT
+              <img src="../_static/nqct.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Worked Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Worked examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#basic-circuits">Basic Circuits</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#pulse-level-control">Pulse-Level Control</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="PLC_Rabi.html">Rabi Experiment</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ramsey Experiment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Simple-Ramsey-using-the-pre-tuned-gates">Simple Ramsey using the pre-tuned gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Simple-Ramsey-using-the-pulse-control">Simple Ramsey using the pulse-control</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Device Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devices/QuantWareSopranoD2.html">QuantWare Soprano D2 (5Q)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Interface Classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NQCT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Worked Examples</a></li>
+      <li class="breadcrumb-item active">Ramsey Experiment</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/PLC_Ramsey.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Ramsey-Experiment">
+<h1>Ramsey Experiment<a class="headerlink" href="#Ramsey-Experiment" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">nqct.utils.QuantumSession</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumSession</span>
+
+<span class="c1"># api_key = input('Enter API Key') #&lt;---PASTE_API_KEY_HERE instead of the input(...)</span>
+<span class="c1"># qs = QuantumSession(api_key=api_key, storage_path='temp/')</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">QuantumSession</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"nqct_wN194hn5LE7W9qVBEt8BjMQXGUqIufBpqHvG5tumqHo"</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">list_backends</span><span class="p">();</span>
+<span class="c1">#Copy over the desired backend from the given list</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">select_backend</span><span class="p">(</span><span class="s1">'quantware_soprano_d2'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Backend ID</th>
+      <th>Qubits</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Qiskit Aer Simulator</td>
+      <td>aer_simulator</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>QuantWare Soprano D2</td>
+      <td>quantware_soprano_d2</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>We continue on from the Rabi experiment to showcase a Ramsey experiment. The Ramsey experiment is designed to map out z-rotations on a qubit. To actually see z-rotations, the idea is to:</p>
+<ul class="simple">
+<li><p>First rotate the qubit onto the xy-plane (so that z-rotations actually change the state) via a <span class="math notranslate nohighlight">\(X(\pi/2)\)</span></p></li>
+<li><p>Then we let the qubit evolve about the z-axis by sweeping the wait times. The resulting rotations will just be the ensemble average of a stochastic noise (decoherence). To make the dynamics more obvious, we offset the frequency off resonance (not enough to make the Hamiltonian tilt away from the x-axis when driving the qubits - i.e. the x-rotations are still fine).</p></li>
+<li><p>To measure the resulting rotation, we rotate the qubit via a <span class="math notranslate nohighlight">\(X(\pi/2)\)</span> operation to map the qubit back onto the z-axis.</p></li>
+</ul>
+<p>The resulting oscillations should be equal to the offset frequency with decay time-constant <span class="math notranslate nohighlight">\(T_2^*\)</span> signifying the coherence time of the qubit. In the following experiments, we need to offset the frequency. We do so by first finding the qubit names:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">get_qubit_names</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;Q0&#39;, &#39;Q1&#39;, &#39;Q2&#39;, &#39;Q3&#39;, &#39;Q4&#39;]
+</pre></div></div>
+</div>
+<p>and querying their properties. In this case, we wish to get the <code class="docutils literal notranslate"><span class="pre">DriveGE</span></code> frequency:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dict_qubit_params</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get_qubit_params</span><span class="p">(</span><span class="s1">'Q0'</span><span class="p">)</span>
+<span class="n">drive_freq</span> <span class="o">=</span> <span class="n">dict_qubit_params</span><span class="p">[</span><span class="s1">'DriveGE'</span><span class="p">]</span>
+<span class="n">drive_freq</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+5141379243.105709
+</pre></div></div>
+</div>
+<section id="Simple-Ramsey-using-the-pre-tuned-gates">
+<h2>Simple Ramsey using the pre-tuned gates<a class="headerlink" href="#Simple-Ramsey-using-the-pre-tuned-gates" title="Link to this heading"></a></h2>
+<p>Here we use the pre-tuned gates to perform the rotations. The following script uses pure OpenQASM3 where we use the <code class="docutils literal notranslate"><span class="pre">cal</span></code> block to set the drive frequency of qubit $0 off-resonant by 250kHz above:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_script</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">OPENQASM 3;</span>
+<span class="s2">include 'stdgates_transmon_fixed_coupler.inc';</span>
+
+<span class="s2">cal</span>
+<span class="se">{{</span>
+<span class="s2">    set_frequency(drive0, </span><span class="si">{</span><span class="n">drive_freq</span><span class="o">+</span><span class="mf">250e3</span><span class="si">}</span><span class="s2">);</span>
+<span class="se">}}</span>
+<span class="s2">"""</span>
+
+<span class="n">my_script</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">"""</span>
+<span class="s2">bit[60] c;</span>
+<span class="s2">qubit q;</span>
+
+<span class="s2">for int m in [0:59]</span>
+<span class="s2">{</span>
+<span class="s2">    reset q;</span>
+<span class="s2">    rx(pi/2) q;</span>
+<span class="s2">    delay[m*400ns] q;</span>
+<span class="s2">    rx(pi/2) q;</span>
+<span class="s2">    c[m] = measure q;</span>
+<span class="s2">}</span>
+<span class="s2">"""</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_qasm</span><span class="p">(</span><span class="n">my_script</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_qreg_physical_mapping</span><span class="p">({(</span><span class="s1">'q'</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span><span class="mi">0</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<p>Setup readout parameters and execute</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">set_acquisition_type</span><span class="p">(</span><span class="s1">'DISCRIMINATION'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_averaging_type</span><span class="p">(</span><span class="s1">'SingleShotCounts'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_num_shots</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_shot_repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">leRes</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>The resulting array slices over the 21 bit register measurements, each with 1024 shots (i.e. 0 or 1). So take the average on each measurement over all its shots and plot the Rabi oscillations:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">cur_arrs</span> <span class="o">=</span> <span class="n">leRes</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
+<span class="n">pops_e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cur_arrs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Wait time (us)'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Excited state population'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">400e-9</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">pops_e</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_PLC_Ramsey_12_0.png" src="../_images/examples_PLC_Ramsey_12_0.png" />
+</div>
+</div>
+</section>
+<section id="Simple-Ramsey-using-the-pulse-control">
+<h2>Simple Ramsey using the pulse-control<a class="headerlink" href="#Simple-Ramsey-using-the-pulse-control" title="Link to this heading"></a></h2>
+<p>Now we perform the same experiment, but using the low-level pulse control via OpenPulse constructs. We won’t redo the Rabi to get the calibrated <span class="math notranslate nohighlight">\(X(\pi/2)\)</span> amplitudes. Instead we will use the current calibration given by NQCT:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_pi2_ampl</span><span class="p">,</span> <span class="n">X_pi2_time</span> <span class="o">=</span> <span class="n">dict_qubit_params</span><span class="p">[</span><span class="s1">'DriveGEAmplitudeXon2'</span><span class="p">],</span> <span class="n">dict_qubit_params</span><span class="p">[</span><span class="s1">'DriveGETime'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>Now we pass these onto a custom Ramsey pulse sequence where we vary the delay inside the OpenPulse constructs within the <code class="docutils literal notranslate"><span class="pre">defcal</span></code> command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_script</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">OPENQASM 3;</span>
+<span class="s2">include 'stdgates_transmon_fixed_coupler.inc';</span>
+
+<span class="s2">cal</span>
+<span class="se">{{</span>
+<span class="s2">    set_frequency(drive0, </span><span class="si">{</span><span class="n">drive_freq</span><span class="o">+</span><span class="mf">250e3</span><span class="si">}</span><span class="s2">);</span>
+
+<span class="s2">    const float X_pi2_ampl = </span><span class="si">{</span><span class="n">X_pi2_ampl</span><span class="si">}</span><span class="s2">;</span>
+<span class="s2">    const duration X_pi2_time = </span><span class="si">{</span><span class="n">X_pi2_time</span><span class="o">*</span><span class="mf">1e9</span><span class="si">}</span><span class="s2">ns;</span>
+<span class="se">}}</span>
+
+
+<span class="s2">bit[60] c;</span>
+<span class="s2">bit[2] calib;</span>
+<span class="s2">qubit q;</span>
+<span class="s2">"""</span>
+
+<span class="n">my_script</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">"""</span>
+
+<span class="s2">defcal ramsey(duration wait_time) $0</span>
+<span class="s2">{</span>
+<span class="s2">    play(drive($0), gaussian(X_pi2_time, X_pi2_ampl));</span>
+<span class="s2">    //The delay command in OpenPulse is per line instead of per qubit like in OpenQASM.</span>
+<span class="s2">    //Also using a predefined drive0=drive($0) as delay commands require literals.</span>
+<span class="s2">    delay[wait_time] drive0;</span>
+<span class="s2">    play(drive($0), gaussian(X_pi2_time, X_pi2_ampl));</span>
+<span class="s2">}</span>
+
+<span class="s2">//Take calibration traces</span>
+<span class="s2">//Ground</span>
+<span class="s2">reset q;</span>
+<span class="s2">calib[0] = measure q;</span>
+<span class="s2">//Excited (could use OpenPulse constructs, but let's just use the pre-calibrated x-gate)</span>
+<span class="s2">reset q;</span>
+<span class="s2">x q;</span>
+<span class="s2">calib[1] = measure q;</span>
+
+<span class="s2">//Perform the Ramsey experiment</span>
+<span class="s2">for int m in [0:59]</span>
+<span class="s2">{</span>
+<span class="s2">    reset q;</span>
+
+<span class="s2">    //This automatically calls our defcal as q is mapped to qubit $0.</span>
+<span class="s2">    ramsey(m*400ns) q;</span>
+
+<span class="s2">    c[m] = measure q;</span>
+<span class="s2">}</span>
+<span class="s2">"""</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_qasm</span><span class="p">(</span><span class="n">my_script</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_qreg_physical_mapping</span><span class="p">({(</span><span class="s1">'q'</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span><span class="mi">0</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<p>Once again, like with the Rabi example, we take calibration points for G and E as we will once again not presume that we have calibrated the readout. Thus, let’s just take in the raw IQ values integrated over 1024 shots:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">set_acquisition_type</span><span class="p">(</span><span class="s1">'INTEGRATION'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_averaging_type</span><span class="p">(</span><span class="s1">'AverageRepetitions'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_num_shots</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_shot_repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">leRes</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Warning: Treating angle variable as a float.
+</pre></div></div>
+</div>
+<p>Similar to the Rabi example, we will use the normalisation utility to get the corrected populations:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqdtoolz.Utilities.DataFitting</span><span class="w"> </span><span class="kn">import</span> <span class="n">DFitSinusoid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqdtoolz.Utilities.DataIQNormalise</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataIQNormalise</span>
+
+<span class="n">rabi_arrs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">leRes</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">'c'</span><span class="p">))</span>
+<span class="n">calib_arrs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">leRes</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">'calib'</span><span class="p">))</span>
+
+<span class="c1">#The class accepts multiple sampled points for G and E, since we only have 1, we nest the array...</span>
+<span class="n">dNorm</span> <span class="o">=</span> <span class="n">DataIQNormalise</span><span class="p">([</span><span class="n">calib_arrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">calib_arrs</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">normalised_data</span> <span class="o">=</span> <span class="n">dNorm</span><span class="o">.</span><span class="n">normalise_data</span><span class="p">(</span><span class="n">rabi_arrs</span><span class="p">)</span>
+
+<span class="n">dfit</span> <span class="o">=</span> <span class="n">DFitSinusoid</span><span class="p">()</span>
+<span class="n">dpkt</span> <span class="o">=</span> <span class="n">dfit</span><span class="o">.</span><span class="n">get_fitted_plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="o">*</span><span class="mf">400e-9</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">normalised_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Frequency: </span><span class="si">{</span><span class="n">dpkt</span><span class="p">[</span><span class="s1">'frequency'</span><span class="p">]</span><span class="o">*</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}</span><span class="s2">kHz</span><span class="se">\n</span><span class="s2">T2*: </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">dpkt</span><span class="p">[</span><span class="s1">'decay_rate'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">us"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Frequency: 240.4kHz
+T2*: 35.5us
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_PLC_Ramsey_21_1.png" src="../_images/examples_PLC_Ramsey_21_1.png" />
+</div>
+</div>
+<p>The decay rate here gives the <span class="math notranslate nohighlight">\(T_2^*\)</span> while the frequency matches the offset frequency - i.e. signifying that the calibrated resonant frequency is accurate.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="PLC_Rabi.html" class="btn btn-neutral float-left" title="Rabi Experiment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../devices/QuantWareSopranoD2.html" class="btn btn-neutral float-right" title="QuantWare Soprano D2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

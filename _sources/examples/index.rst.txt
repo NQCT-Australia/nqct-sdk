@@ -20,6 +20,7 @@ Pulse-Level Control
    :maxdepth: 1
 
    Rabi Experiment <PLC_Rabi.ipynb>
+   Ramsey Experiment <PLC_Ramsey.ipynb>
 
 
 Analysis
