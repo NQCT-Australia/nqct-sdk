@@ -123,6 +123,16 @@ class QuantumSession:
             #Perhaps just check qubit counts?
             pass
 
+    def get_qubit_names(self):
+        if self._sel_backend.type == 'hardware':
+            return [x['Name'] for x in self._sel_backend.backend_metadata['topology']['calibration']['payload']['Qubits']]
+        assert False, "Select a hardware backend."
+
+    def get_qubit_params(self, qubit_name):
+        avail_qubits = self.get_qubit_names()
+        assert qubit_name in avail_qubits, f"Qubit {qubit_name} does not exist. Available qubits are: {avail_qubits}"
+        return [x for x in self._sel_backend.backend_metadata['topology']['calibration']['payload']['Qubits'] if x['Name']==qubit_name][0]
+
     def get_final_qasm(self):
         decls = ";\n\ncal {\n"
         for cur_array in self._numpy_arrays:
