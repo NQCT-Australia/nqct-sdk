@@ -13,6 +13,15 @@ Basic Circuits
     Basic interfacing <Basic.ipynb>
     Automatic Tomography <Tomography.ipynb>
 
+Pulse-Level Control
+-------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   Rabi Experiment <PLC_Rabi.ipynb>
+
+
 Analysis
 --------
 
