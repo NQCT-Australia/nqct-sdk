@@ -60,7 +60,6 @@ default-groups = []
 Homepage = "https://github.com/NQCT-Australia/nqct-sdk"
 Documentation = "https://nqct-australia.github.io/nqct-sdk/"
 Repository = "https://github.com/NQCT-Australia/nqct-sdk"
-"NQCT Cloud spec" = "https://github.com/NQCT-Australia/nqct-cloud/blob/main/references/specs/14-python-sdk.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["nqct"]

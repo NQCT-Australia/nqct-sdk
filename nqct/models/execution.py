@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 AcquisitionType = Literal["Discrimination", "Integration", "Raw"]
 AveragingMode = Literal["AverageRepetitions", "SingleShotCounts"]
+ReadoutStates = Literal["ReadoutGE", "ReadoutGEF"]
 
 _ACQUISITION_TYPES: dict[str, AcquisitionType] = {
     "discrimination": "Discrimination",
@@ -17,6 +18,10 @@ _ACQUISITION_TYPES: dict[str, AcquisitionType] = {
 _AVERAGING_MODES: dict[str, AveragingMode] = {
     "averagerepetitions": "AverageRepetitions",
     "singleshotcounts": "SingleShotCounts",
+}
+_READOUT_STATES: dict[str, ReadoutStates] = {
+    "readoutge": "ReadoutGE",
+    "readoutgef": "ReadoutGEF",
 }
 
 
@@ -40,6 +45,17 @@ def normalize_averaging(value: str) -> AveragingMode:
             "Allowed: AverageRepetitions, SingleShotCounts"
         )
     return _AVERAGING_MODES[key]
+
+
+def normalize_readout_states(value: str) -> ReadoutStates:
+    """Normalize readout_states (case-insensitive) to API PascalCase."""
+    key = (value or "").strip().lower()
+    if key not in _READOUT_STATES:
+        raise ValueError(
+            f"Invalid readout_states {value!r}. "
+            "Allowed: ReadoutGE, ReadoutGEF"
+        )
+    return _READOUT_STATES[key]
 
 
 class QubitMappingEntry(BaseModel):
@@ -81,6 +97,7 @@ class HardwareExecutionConfig(BaseModel):
     acquisition_type: AcquisitionType | None = None
     averaging: AveragingMode | None = None
     shot_repeat: int | None = Field(default=None, ge=1)
+    readout_states: ReadoutStates | None = None
     readout_mapping: dict[str, Any] | None = None
     pulse_calibration_id: str | None = None
     layout: dict[str, Any] | None = None
@@ -105,6 +122,13 @@ class HardwareExecutionConfig(BaseModel):
         if value is None or (isinstance(value, str) and not value.strip()):
             return None
         return cast(int, value)
+
+    @field_validator("readout_states", mode="before")
+    @classmethod
+    def _normalize_readout_states(cls, value: Any) -> ReadoutStates | None:
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return None
+        return normalize_readout_states(str(value))
 
 
 class ExecutionConfig(BaseModel):
