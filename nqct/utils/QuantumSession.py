@@ -142,7 +142,7 @@ class QuantumSession:
     def get_qubit_names(self):
         if self._sel_backend.type == 'hardware':
             return [x['Name'] for x in self._sel_backend.backend_metadata['topology']['calibration']['payload']['Qubits']]
-        assert False, "Select a hardware backend."
+        raise AssertionError("Select a hardware backend.")
 
     def get_qubit_params(self, qubit_name):
         avail_qubits = self.get_qubit_names()
