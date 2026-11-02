@@ -205,6 +205,43 @@ def test_quantum_session_setters_normalize_case(quantum_session_cls) -> None:
     session.close()
 
 
+def test_get_final_qasm_omits_empty_cal_when_no_waveforms(quantum_session_cls) -> None:
+    session = quantum_session_cls(api_key="nqct_test")
+    session.set_qasm(
+        "OPENQASM 3;\ninclude 'stdgates_transmon_fixed_coupler.inc';\nqubit[1] q;\nz q[0];\n"
+    )
+    out = session.get_final_qasm()
+    assert "cal" not in out.lower()
+    session.close()
+
+
+def test_get_final_qasm_strips_empty_cal_with_warning(
+    quantum_session_cls, recwarn: pytest.WarningsRecorder
+) -> None:
+    session = quantum_session_cls(api_key="nqct_test")
+    session.set_qasm("OPENQASM 3;\n\ncal {\n}\n\nqubit[1] q;\nz q[0];\n")
+    out = session.get_final_qasm()
+    assert "cal" not in out.lower()
+    assert any("Empty cal" in str(w.message) for w in recwarn.list)
+    session.close()
+
+
+def test_get_final_qasm_injects_cal_when_waveforms_present(
+    quantum_session_cls, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import nqct.utils.QuantumSession as qs_mod
+
+    encode = MagicMock(return_value="abc")
+    monkeypatch.setattr(qs_mod, "SerialiseJSON", MagicMock(encode_ndarray=encode))
+    session = quantum_session_cls(api_key="nqct_test")
+    session.set_qasm("OPENQASM 3;\nqubit[1] q;\nh q[0];\n")
+    session.declare_numpy_waveform("w0", [1 + 0j])
+    out = session.get_final_qasm()
+    assert "cal {" in out
+    assert "waveform w0 = load_numpy_encoded(0xabc);" in out
+    session.close()
+
+
 @respx.mock
 def test_quantum_session_download_bundle(quantum_session_cls, tmp_path: Path) -> None:
     session = quantum_session_cls(api_key="nqct_test")

@@ -17,8 +17,15 @@ from sqdtoolz.Utilities.FileJSON import SerialiseJSON
 
 from nqct.models.execution import QubitMappingEntry
 import os
+import re
 import shutil
+import warnings
 from sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer import ExpZIQASMDataViewer
+
+_EMPTY_CAL_BLOCK_RE = re.compile(
+    r"^\s*cal\s*\{\s*\}\s*;?\s*$",
+    re.MULTILINE | re.IGNORECASE,
+)
 
 class QuantumSession:
     def __init__(self, api_key:str=None, storage_path = 'temp/'):
@@ -143,12 +150,22 @@ class QuantumSession:
         return [x for x in self._sel_backend.backend_metadata['topology']['calibration']['payload']['Qubits'] if x['Name']==qubit_name][0]
 
     def get_final_qasm(self):
+        qasm = self._qasm
+        if _EMPTY_CAL_BLOCK_RE.search(qasm):
+            warnings.warn(
+                "Empty cal { } block ignored",
+                UserWarning,
+                stacklevel=2,
+            )
+            qasm = _EMPTY_CAL_BLOCK_RE.sub("", qasm, count=1)
+        if not self._numpy_arrays:
+            return qasm
         decls = ";\n\ncal {\n"
         for cur_array in self._numpy_arrays:
             cur_encoded = SerialiseJSON.encode_ndarray(self._numpy_arrays[cur_array], True)
             decls += f"\twaveform {cur_array} = load_numpy_encoded(0x{cur_encoded});\n"
         decls += "}\n\n"
-        return self._qasm.replace(";", decls, 1)
+        return qasm.replace(";", decls, 1)
 
     def run(self, auto_validate=True, dont_download_raw=False):
         if auto_validate:
