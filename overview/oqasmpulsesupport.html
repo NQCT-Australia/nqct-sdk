@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supported Features &amp; Rules &mdash; NQCT  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+    <link rel="shortcut icon" href="../_static/nqct-icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Worked Examples" href="../examples/index.html" />
+    <link rel="prev" title="Hardware Constraints" href="hardwarelimits.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NQCT
+              <img src="../_static/nqct.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">OpenQASM Overview</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="oqasmpulseoverview.html">Compiler and Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardwarelimits.html">Hardware Constraints</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Supported Features &amp; Rules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#variable-scoping-and-declarations">Variable Scoping and Declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loops">Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conditional-statements">Conditional statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pulse-level-control-openpulse">Pulse-level Control (OpenPulse)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Worked Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Worked examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Device Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devices/QuantWareSopranoD2.html">QuantWare Soprano D2 (5Q)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Interface Classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NQCT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Supported Features &amp; Rules</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/overview/oqasmpulsesupport.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="supported-features-rules">
+<span id="oqasmpulsecompilersupport"></span><h1>Supported Features &amp; Rules<a class="headerlink" href="#supported-features-rules" title="Link to this heading"></a></h1>
+<p>NQCT follows the <a class="reference external" href="https://openqasm.com/versions/3.0/intro.html">OpenQASM3 standard</a>. Support for the full standard is on-going. This page highlights the currently supported commands and the specific parsing behaviors of the NQCT parser. Thus, it is not a definitive resource on OpenQASM3/OpenPulse. Please refer to the full standard or the worked examples for such details.</p>
+<section id="variable-scoping-and-declarations">
+<h2>Variable Scoping and Declarations<a class="headerlink" href="#variable-scoping-and-declarations" title="Link to this heading"></a></h2>
+<p>The parser uses a state machine to manage variable scope. Variables declared within a specific scope (like a loop or a function) are not visible outside of it. There is a difference in scoping:</p>
+<ul class="simple">
+<li><p><strong>Global Scope:</strong> Only the following declarations are permitted in the global scope: <code class="docutils literal notranslate"><span class="pre">gate</span></code>, <code class="docutils literal notranslate"><span class="pre">def</span></code>, <code class="docutils literal notranslate"><span class="pre">defcal</span></code>, <code class="docutils literal notranslate"><span class="pre">defcalgrammar</span></code>, <code class="docutils literal notranslate"><span class="pre">extern</span></code>, <code class="docutils literal notranslate"><span class="pre">include</span></code>, and <code class="docutils literal notranslate"><span class="pre">qubit</span></code>.</p></li>
+<li><p><strong>Local Scope:</strong> Variables declared within <code class="docutils literal notranslate"><span class="pre">gatedef</span></code> or <code class="docutils literal notranslate"><span class="pre">defcal</span></code> blocks are strictly local.</p></li>
+<li><p><strong>Qubits:</strong> Qubit declarations must occur in the global scope.</p></li>
+</ul>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">OpenQASM Scopes</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Scope Type</p></th>
+<th class="head"><p>Included Structures</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Global</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">block</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span></code>, <code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">def</span></code>, <code class="docutils literal notranslate"><span class="pre">gate</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Calibration</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cal</span> <span class="pre">block</span></code>, <code class="docutils literal notranslate"><span class="pre">defcal</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the script, <code class="docutils literal notranslate"><span class="pre">gatedef</span></code> is an OpenQASM construct and only refers to <strong>logical</strong> qubit registers defined via <code class="docutils literal notranslate"><span class="pre">qubit</span></code>. Whereas, <code class="docutils literal notranslate"><span class="pre">defcal</span></code> is an OpenPulse construct that refers to <strong>physical</strong> qubits (i.e. <code class="docutils literal notranslate"><span class="pre">$0</span></code>, <code class="docutils literal notranslate"><span class="pre">$1</span></code>…). The name resolution on a qubit operation forces <code class="docutils literal notranslate"><span class="pre">defcal</span></code> to take precedence over <code class="docutils literal notranslate"><span class="pre">gatedef</span></code>. For example, when calling a qubit operation <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">q[1]</span></code> with <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> mapped to <code class="docutils literal notranslate"><span class="pre">$2</span></code>, the parser first checks if there is a <code class="docutils literal notranslate"><span class="pre">defcal</span></code> called <code class="docutils literal notranslate"><span class="pre">x</span></code> operating on <code class="docutils literal notranslate"><span class="pre">$2</span></code>. If it is defined, then it calls the <code class="docutils literal notranslate"><span class="pre">defcal</span></code>, otherwise it searches for a <code class="docutils literal notranslate"><span class="pre">gatedef</span></code> defined on a general qubit register. Thus, if one were to override <code class="docutils literal notranslate"><span class="pre">x</span></code> for all qubits, there must be an individual <code class="docutils literal notranslate"><span class="pre">defcal</span></code> for every physical qubit.</p>
+</div>
+</section>
+<section id="loops">
+<h2>Loops<a class="headerlink" href="#loops" title="Link to this heading"></a></h2>
+<p>The implementation of <code class="docutils literal notranslate"><span class="pre">for</span></code> loops is designed to align with the hardware restrictions of <em>LabOneQ</em>.</p>
+<ul class="simple">
+<li><p><strong>Sequential Execution:</strong> All <code class="docutils literal notranslate"><span class="pre">for</span></code> loops are executed sequentially. NQCT does not support parallel <code class="docutils literal notranslate"><span class="pre">for</span></code> loops.</p></li>
+<li><p><strong>Nesting Constraints:</strong> A loop can contain a single child loop. However, a loop cannot contain two parallel child loops.</p></li>
+<li><p><strong>Dynamic Delays:</strong> To implement dynamic delays or scaling within a loop, you must create an arithmetic offset/scaling variable alongside your main loop variable and sweep them simultaneously.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Supported loops:</strong> To ensure strict timing adherence, <code class="docutils literal notranslate"><span class="pre">for</span></code> loops are unrolled during compilation. Consequently, <code class="docutils literal notranslate"><span class="pre">while</span></code> loops, which have termination conditions unknown at compile-time, are not supported.</p>
+</div>
+</section>
+<section id="conditional-statements">
+<h2>Conditional statements<a class="headerlink" href="#conditional-statements" title="Link to this heading"></a></h2>
+<p>Conditional statements like <code class="docutils literal notranslate"><span class="pre">if</span></code>-statements for dynamic feedback will be supported soon.</p>
+</section>
+<section id="pulse-level-control-openpulse">
+<h2>Pulse-level Control (OpenPulse)<a class="headerlink" href="#pulse-level-control-openpulse" title="Link to this heading"></a></h2>
+<p>NQCT allows for heavy use of OpenPulse-style control by leveraging the <code class="docutils literal notranslate"><span class="pre">extern</span></code> command. This allows you to access pulse frames without the boilerplate of defining ports and frames manually.</p>
+<p><strong>Implicit Frames</strong>
+The following three <code class="docutils literal notranslate"><span class="pre">extern</span></code> commands are added to the parser implicitly for every qubit:</p>
+<p>That is, for any qubit, one may query the drive, flux or measure lines by using these three functions (using <cite>meas</cite> here as <cite>measure</cite> is an <em>OpenQASM</em> construct). After that, the <cite>play</cite> functions can be used in a straightforward manner. Note that <cite>play</cite> functions in <cite>cal</cite> blocks are ignored. To cater for the literal-only requirement in delay instructions, the same frames are by default declared as frame objects for every physical qubit (they can technically be overwritten):</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>cpp
+drive0 = drive($0)
+flux0 = flux($0)
+meas0 = meas($0)
+//
+drive1 = drive($1)
+flux1 = flux($1)
+meas1 = meas($1)
+//
+//etc.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Supported loops:</strong> When using <code class="docutils literal notranslate"><span class="pre">delay</span></code> in a <code class="docutils literal notranslate"><span class="pre">defcal</span></code> block, the frames must be literals due to the current state of the OpenQASM3 standard. Thus, for example, use <code class="docutils literal notranslate"><span class="pre">delay[0]</span> <span class="pre">drive0,</span> <span class="pre">flux0;</span></code> as opposed to <code class="docutils literal notranslate"><span class="pre">delay[0]</span> <span class="pre">drive($0),</span> <span class="pre">flux($0)</span></code> as the latter will throw a compilation error.</p>
+</div>
+<p>The following waveforms are available for use within the parser:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Waveform</p></th>
+<th class="head"><p>Signature</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gaussian</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gaussian(duration,</span> <span class="pre">amp,</span> <span class="pre">sigma)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">drag</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">drag(duration,</span> <span class="pre">amp,</span> <span class="pre">sigma,</span> <span class="pre">beta)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">constant</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">constant(duration,</span> <span class="pre">amp)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Play Function Limitations:</strong> While you can use <code class="docutils literal notranslate"><span class="pre">play</span></code> functions in <code class="docutils literal notranslate"><span class="pre">defcal</span></code> blocks, they are <strong>not supported</strong> within standard <code class="docutils literal notranslate"><span class="pre">cal</span></code> blocks. Additionally, all <code class="docutils literal notranslate"><span class="pre">play</span></code> functions within a single <code class="docutils literal notranslate"><span class="pre">defcal</span></code> block are assumed to start from the same time point. That is, there is an implicit synchronisation of all signals within the physical qubits defined for the <code class="docutils literal notranslate"><span class="pre">defcal</span></code> block.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hardwarelimits.html" class="btn btn-neutral float-left" title="Hardware Constraints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples/index.html" class="btn btn-neutral float-right" title="Worked Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

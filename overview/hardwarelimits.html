@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hardware Constraints &mdash; NQCT  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+    <link rel="shortcut icon" href="../_static/nqct-icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Supported Features &amp; Rules" href="oqasmpulsesupport.html" />
+    <link rel="prev" title="Compiler and Scheduler" href="oqasmpulseoverview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NQCT
+              <img src="../_static/nqct.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">OpenQASM Overview</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="oqasmpulseoverview.html">Compiler and Scheduler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware Constraints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hardware-specifications">Hardware Specifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#measurement-pulses">Measurement Pulses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openqasm3">OpenQASM3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openpulse">OpenPulse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oqasmpulsesupport.html">Supported Features &amp; Rules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Worked Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Worked examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Device Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devices/QuantWareSopranoD2.html">QuantWare Soprano D2 (5Q)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Interface Classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NQCT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Hardware Constraints</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/overview/hardwarelimits.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hardware-constraints">
+<span id="hardwarelimits"></span><h1>Hardware Constraints<a class="headerlink" href="#hardware-constraints" title="Link to this heading"></a></h1>
+<p>The <a class="reference external" href="https://www.zhinst.com/others/en/products/shfqc-qubit-controller/">Zurich Instruments</a> hardware used by NQCT places some constraints on structure of the OpenQASM/OpenPulse scripts. The limitations and subsequent requirements on the scripts shall be outlined here.</p>
+<section id="hardware-specifications">
+<h2>Hardware Specifications<a class="headerlink" href="#hardware-specifications" title="Link to this heading"></a></h2>
+<p>The scripts can call upon a sampling time <code class="docutils literal notranslate"><span class="pre">dt</span></code>. This is evaluated contextually on the pulse line (e.g. flux, drive etc.). For ease of use, all sample rates are fixed at 2Gs/s or <code class="docutils literal notranslate"><span class="pre">dt</span></code> of 0.5ns.</p>
+</section>
+<section id="measurement-pulses">
+<h2>Measurement Pulses<a class="headerlink" href="#measurement-pulses" title="Link to this heading"></a></h2>
+<section id="openqasm3">
+<h3>OpenQASM3<a class="headerlink" href="#openqasm3" title="Link to this heading"></a></h3>
+<p>One can place <code class="docutils literal notranslate"><span class="pre">measure</span></code> commands anywhere in the timing diagram subject to the constraint that overlapping measurement pulses across multiple qubits must begin at the same time:</p>
+<figure class="align-center" id="id1">
+<img alt="Overlapping measurement pulses across multiple qubits must begin at the same time." src="../_images/hardwarelimits_meas_pulse_align.drawio.svg" />
+<figcaption>
+<p><span class="caption-text">Overlapping measurement pulses across multiple qubits must begin at the same time.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Aligning measurement operations to begin at the same time.</strong> Use the alignment construct <code class="docutils literal notranslate"><span class="pre">delay[0]</span></code> to automatically align the qubits in the scheduled timing diagram. For example, to align qubits <code class="docutils literal notranslate"><span class="pre">q[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> and <code class="docutils literal notranslate"><span class="pre">q[2]</span></code>, the call <code class="docutils literal notranslate"><span class="pre">delay[0]</span> <span class="pre">q[0],</span> <span class="pre">q[1],</span> <span class="pre">q[2];</span></code> or <code class="docutils literal notranslate"><span class="pre">delay[0]</span> <span class="pre">q;</span></code> (if <code class="docutils literal notranslate"><span class="pre">q</span></code> is defined as a 3-qubit register) before running the measurement operations.</p>
+</div>
+<p>This limitation exists because the readout pulses are multiplexed on a single feedline. When measurement pulses overlap, a different numerical waveform must be calculated and then played onto that feedline. Since overlapping cascading measurements could in theory make the waveform unbounded in length, the hardware architecture simplifies the problem by enforcing the rule that they must begin at the same time.</p>
+<p>Another limitation is that subsequent measurement operations on a given qubit must be separated by 30ns. Finally, measurement (specifically acquisition) operations must align onto an 8ns timing grid. The parser automatically takes care of this by adding an automatic delay before the measurement operation. This delay appears on the compiled schedule timing diagram.</p>
+</section>
+<section id="openpulse">
+<h3>OpenPulse<a class="headerlink" href="#openpulse" title="Link to this heading"></a></h3>
+<p>Measurement pulses created via OpenPulse constructs are limited to a single fixed pulse envelope per qubit per experiment. That is, within a single measurement shot, the pulse envelope must not change between measurement pulses.</p>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h3>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Measurement pulse limitations</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Limitation</p></th>
+<th class="head"><p>Domain</p></th>
+<th class="head"><p>User intervention</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Overlapping measurements must sync</p></td>
+<td><p>OpenQASM3</p></td>
+<td><p>Use <code class="docutils literal notranslate"><span class="pre">delay[0]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>30ns gap between measurements</p></td>
+<td><p>OpenQASM3</p></td>
+<td><p>Add delays/gates between measurements</p></td>
+</tr>
+<tr class="row-even"><td><p>Measurements must align to 8ns grid</p></td>
+<td><p>OpenQASM3</p></td>
+<td><p>Handled automatically by scheduler</p></td>
+</tr>
+<tr class="row-odd"><td><p>Measurement pulses cannot change</p></td>
+<td><p>OpenPulse</p></td>
+<td><p>Do not change pulse envelope</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="oqasmpulseoverview.html" class="btn btn-neutral float-left" title="Compiler and Scheduler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="oqasmpulsesupport.html" class="btn btn-neutral float-right" title="Supported Features &amp; Rules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
