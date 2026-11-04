@@ -65,16 +65,16 @@ The following three ``extern`` commands are added to the parser implicitly for e
 
 That is, for any qubit, one may query the drive, flux or measure lines by using these three functions (using `meas` here as `measure` is an *OpenQASM* construct). After that, the `play` functions can be used in a straightforward manner. Note that `play` functions in `cal` blocks are ignored. To cater for the literal-only requirement in delay instructions, the same frames are by default declared as frame objects for every physical qubit (they can technically be overwritten):
 
-```cpp
-drive0 = drive($0)
-flux0 = flux($0)
-meas0 = meas($0)
-//
-drive1 = drive($1)
-flux1 = flux($1)
-meas1 = meas($1)
-//
-//etc.
+.. code-string:: qasm
+   drive0 = drive($0)
+   flux0 = flux($0)
+   meas0 = meas($0)
+   //
+   drive1 = drive($1)
+   flux1 = flux($1)
+   meas1 = meas($1)
+   //
+   //etc.
 
 .. warning::
    **Supported loops:** When using ``delay`` in a ``defcal`` block, the frames must be literals due to the current state of the OpenQASM3 standard. Thus, for example, use ``delay[0] drive0, flux0;`` as opposed to ``delay[0] drive($0), flux($0)`` as the latter will throw a compilation error.
