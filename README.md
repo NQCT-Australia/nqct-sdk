@@ -64,7 +64,6 @@ If you encounter a problem, have a feature request, disagree with how something 
 | [NQCT Cloud](https://cloud.nqct.org)                                | NQCT web portal       |
 | [NQCT Python SDK](https://github.com/NQCT-Australia/nqct-sdk)       | This repository       |
 | [NQCT Cloud platform](https://github.com/NQCT-Australia/nqct-cloud) | NQCT platform and API |
-| [NQCT API documentation](https://api.nqct.org/docs)                 | API reference         |
 
 ---
 

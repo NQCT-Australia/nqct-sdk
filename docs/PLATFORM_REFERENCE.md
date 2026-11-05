@@ -1,16 +1,11 @@
-# Platform reference paths
+# Platform reference
 
-When `nqct-cloud` is cloned as a sibling directory:
+The SDK talks to the NQCT Cloud REST API (`/api/v1`).
 
-| Document | Path |
-|----------|------|
-| SDK spec (Unit 14) | `../nqct-cloud/references/specs/14-python-sdk.md` |
-| Architecture | `../nqct-cloud/references/context/architecture.md` |
-| Security | `../nqct-cloud/references/context/security.md` |
-| Auth spec | `../nqct-cloud/references/specs/02-user-authentication.md` |
-| Jobs spec | `../nqct-cloud/references/specs/07-jobs.md` |
-| Functions spec | `../nqct-cloud/references/specs/06-functions.md` |
+| Resource | URL |
+|----------|-----|
+| Production API base | `https://api.nqct.org/api/v1` |
+| Web portal | https://cloud.nqct.org |
+| Local API (after `nqct start`) | `http://localhost:8000/api/v1` |
 
-Override with env `NQCT_CLOUD_ROOT=/path/to/nqct-cloud` if not side-by-side.
-
-Live API during local dev: `http://localhost:8000/docs` (requires `nqct start` in nqct-cloud).
+Override the SDK base URL with `NQCT_URL` or `NQCTClient(url=...)` when not using production.

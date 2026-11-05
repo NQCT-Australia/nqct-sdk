@@ -4,7 +4,11 @@ from pathlib import Path
 
 from nqct.client import NQCTClient
 from nqct.models.backend import Backend
-from nqct.models.execution import normalize_acquisition_type, normalize_averaging
+from nqct.models.execution import (
+    normalize_acquisition_type,
+    normalize_averaging,
+    normalize_readout_states,
+)
 from IPython.display import display
 from sqdtoolz.Utilities.OpenQASM.ParserOpenQASM import ParserOpenQASM
 import pandas as pd
@@ -13,8 +17,15 @@ from sqdtoolz.Utilities.FileJSON import SerialiseJSON
 
 from nqct.models.execution import QubitMappingEntry
 import os
+import re
 import shutil
+import warnings
 from sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer import ExpZIQASMDataViewer
+
+_EMPTY_CAL_BLOCK_RE = re.compile(
+    r"^\s*cal\s*\{\s*\}\s*;?\s*$",
+    re.MULTILINE | re.IGNORECASE,
+)
 
 class QuantumSession:
     def __init__(self, api_key:str=None, storage_path = 'temp/'):
@@ -30,6 +41,7 @@ class QuantumSession:
         self._acquisition_type = 'Discrimination'
         self._averaging = 'AverageRepetitions'
         self._shot_repeat = 1
+        self._readout_states = 'ReadoutGE'
         self._storage_path = storage_path
     
     def list_backends(self, print_table=True) -> list[Backend]:
@@ -83,6 +95,10 @@ class QuantumSession:
             )
         self._shot_repeat = shot_repeat
 
+    def set_readout_states(self, readout_states: str) -> None:
+        """Set hardware readout_states (ReadoutGE | ReadoutGEF)."""
+        self._readout_states = normalize_readout_states(readout_states)
+
     def get_qregs_in_qasm(self):
         poqasm = ParserOpenQASM('', [], main_qasm=self.get_final_qasm())
         return poqasm.get_qregs()
@@ -126,7 +142,7 @@ class QuantumSession:
     def get_qubit_names(self):
         if self._sel_backend.type == 'hardware':
             return [x['Name'] for x in self._sel_backend.backend_metadata['topology']['calibration']['payload']['Qubits']]
-        assert False, "Select a hardware backend."
+        raise AssertionError("Select a hardware backend.")
 
     def get_qubit_params(self, qubit_name):
         avail_qubits = self.get_qubit_names()
@@ -134,12 +150,22 @@ class QuantumSession:
         return [x for x in self._sel_backend.backend_metadata['topology']['calibration']['payload']['Qubits'] if x['Name']==qubit_name][0]
 
     def get_final_qasm(self):
+        qasm = self._qasm
+        if _EMPTY_CAL_BLOCK_RE.search(qasm):
+            warnings.warn(
+                "Empty cal { } block ignored",
+                UserWarning,
+                stacklevel=2,
+            )
+            qasm = _EMPTY_CAL_BLOCK_RE.sub("", qasm, count=1)
+        if not self._numpy_arrays:
+            return qasm
         decls = ";\n\ncal {\n"
         for cur_array in self._numpy_arrays:
             cur_encoded = SerialiseJSON.encode_ndarray(self._numpy_arrays[cur_array], True)
             decls += f"\twaveform {cur_array} = load_numpy_encoded(0x{cur_encoded});\n"
         decls += "}\n\n"
-        return self._qasm.replace(";", decls, 1)
+        return qasm.replace(";", decls, 1)
 
     def run(self, auto_validate=True, dont_download_raw=False):
         if auto_validate:
@@ -152,6 +178,7 @@ class QuantumSession:
             acquisition_type=self._acquisition_type,
             averaging=self._averaging,
             shot_repeat=self._shot_repeat,
+            readout_states=self._readout_states,
             qubit_mapping=[QubitMappingEntry(qreg=x[0], qreg_index=x[1], phyq_index=self._qreg_phys_mapping[x]) for x in self._qreg_phys_mapping]
         )
         job = job.wait(timeout=3600)
