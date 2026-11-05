@@ -51,6 +51,9 @@ The next stage involves script compilation, which produces a compiled schedule t
 .. note::
    **A single shot or repetition:** All code (with all pulses and defined measurements) in a given OpenQASM script are considered to be confined within a single experiment 'shot' or 'repetition'. The eventual timing diagram is played shot-to-shot without any delay.
 
+.. warning::
+   **Qubit reset is not implicit:** The qubits are not initialised into the ground state at the beginning of every repetition unless the user explicitly adds a reset command like ``reset q;`` or ``reset q[0]``.
+
 
 Scheduling and Alignment
 ------------------------

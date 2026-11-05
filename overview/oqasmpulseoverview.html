@@ -148,6 +148,10 @@
 <p class="admonition-title">Note</p>
 <p><strong>A single shot or repetition:</strong> All code (with all pulses and defined measurements) in a given OpenQASM script are considered to be confined within a single experiment ‘shot’ or ‘repetition’. The eventual timing diagram is played shot-to-shot without any delay.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Qubit reset is not implicit:</strong> The qubits are not initialised into the ground state at the beginning of every repetition unless the user explicitly adds a reset command like <code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">q;</span></code> or <code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">q[0]</span></code>.</p>
+</div>
 </section>
 <section id="scheduling-and-alignment">
 <h2>Scheduling and Alignment<a class="headerlink" href="#scheduling-and-alignment" title="Link to this heading"></a></h2>
