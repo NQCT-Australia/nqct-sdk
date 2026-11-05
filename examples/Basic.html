@@ -172,6 +172,8 @@
 <span class="s2">bit[3] c;</span>
 <span class="s2">qubit[3] q;</span>
 
+<span class="s2">reset q;    //Initialise qubits into the ground states!</span>
+
 <span class="s2">z q[0];</span>
 <span class="s2">rx(pi/2) q[0];</span>
 
@@ -455,7 +457,8 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">set_acquisition_type</span><span class="p">(</span><span class="s1">'DISCRIMINATION'</span><span class="p">)</span>
 <span class="n">qs</span><span class="o">.</span><span class="n">set_averaging_type</span><span class="p">(</span><span class="s1">'SingleShotCounts'</span><span class="p">)</span>
 <span class="n">qs</span><span class="o">.</span><span class="n">set_num_shots</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
-<span class="n">qs</span><span class="o">.</span><span class="n">set_shot_repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="n">qs</span><span class="o">.</span><span class="n">set_readout_states</span><span class="p">(</span><span class="s1">'ReadoutGE'</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_shot_repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qs</span><span class="o">.</span><span class="n">set_readout_states</span><span class="p">(</span><span class="s1">'ReadoutGE'</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
