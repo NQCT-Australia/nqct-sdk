@@ -26,6 +26,15 @@ The `nqct` package provides Python utilities to interact with the cloud interfac
    QuantWare Soprano D2 (5Q) <devices/QuantWareSopranoD2>
 
 .. toctree::
+   :maxdepth 1
+   :caption: Utilities and Postprocessing
+   :titlesonly:
+
+   State Tomography <postprocs/statetomography>
+   Readout correction <postprocs/readoutcorrection>
+
+
+.. toctree::
    :maxdepth: 5
    :caption: Interface Classes
 
