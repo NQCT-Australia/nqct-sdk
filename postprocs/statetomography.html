@@ -1,0 +1,181 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>State Tomography &mdash; NQCT  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+    <link rel="shortcut icon" href="../_static/nqct-icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Readout Correction" href="readoutcorrection.html" />
+    <link rel="prev" title="QuantWare Soprano D2" href="../devices/QuantWareSopranoD2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NQCT
+              <img src="../_static/nqct.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">OpenQASM Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/oqasmpulseoverview.html">Compiler and Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/hardwarelimits.html">Hardware Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/oqasmpulsesupport.html">Supported Features &amp; Rules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Worked Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Worked examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Device Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devices/QuantWareSopranoD2.html">QuantWare Soprano D2 (5Q)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utilities and Postprocessing</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">State Tomography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readoutcorrection.html">Readout correction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Interface Classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NQCT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">State Tomography</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/postprocs/statetomography.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="state-tomography">
+<span id="statetomography"></span><h1>State Tomography<a class="headerlink" href="#state-tomography" title="Link to this heading"></a></h1>
+<p>To get the full description of a given quantum state, one performs multiple basis measurements to obtain the density-matrix. There are in-built utilities to perform state tomography as shown in the <a class="reference internal" href="../examples/Tomography.html"><span class="doc">worked example</span></a>. This article explains the steps performed in said tomography package.</p>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Link to this heading"></a></h2>
+<p>Recall that a density matrix <span class="math notranslate nohighlight">\(\rho\)</span> must satisfy:</p>
+<ul class="simple">
+<li><p>Hermiticity: <span class="math notranslate nohighlight">\(\rho^\dagger=\rho\)</span></p></li>
+<li><p>Unit-Trace: <span class="math notranslate nohighlight">\(\textnormal{tr}(\rho)=1\)</span></p></li>
+<li><p>Positive semi-definiteness: <span class="math notranslate nohighlight">\(\rho\)</span> has non-negative eigenvalues</p></li>
+</ul>
+<p>The Hermicitity readily implies the orthogonal (under the inner-product <span class="math notranslate nohighlight">\(\langle A|B\rangle=\textnormal{tr}(AB)\)</span>) Pauli decomposition:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\rho=\left(\begin{matrix}I+z &amp; x-iy\\x+iy &amp; I-z\end{matrix}\right)\equiv\frac{1}{2}(I_2+r_x\sigma_x+r_y\sigma_y+r_z\sigma_z)\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\((r_x,r_y,r_z)\)</span> is the Bloch-vector with the magnitude being unity for pure-states. It is evident that <span class="math notranslate nohighlight">\(\langle r_m\rangle\equiv\textnormal{tr}(\rho\sigma_m)=r_m\)</span>. Thus, one can find the Bloch-vector by measuring along the <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> axes on the Bloch sphere. This can be achieved by rotating the state’s basis components onto the measurement <span class="math notranslate nohighlight">\(z\)</span>-axis:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\langle z\rangle\)</span>: just measure</p></li>
+<li><p><span class="math notranslate nohighlight">\(\langle x\rangle\)</span>: perform a y-rotation <span class="math notranslate nohighlight">\(Y(-\pi/2)\)</span> to rotate <span class="math notranslate nohighlight">\(x\)</span> axis onto the <span class="math notranslate nohighlight">\(z\)</span> axis and then measure</p></li>
+<li><p><span class="math notranslate nohighlight">\(\langle y\rangle\)</span>: perform a x-rotation <span class="math notranslate nohighlight">\(X(\pi/2)\)</span> to rotate <span class="math notranslate nohighlight">\(y\)</span> axis onto the <span class="math notranslate nohighlight">\(z\)</span> axis and then measure</p></li>
+</ul>
+<p>This procedure of preparing the state three times to perform different basis measurements can help reconstruct the density matrix for a single qubit. To extend the procedure to multiple qubits, realise that an <span class="math notranslate nohighlight">\(N\)</span>-qubit density matrix is simply the tensor product <span class="math notranslate nohighlight">\(\rho_1\otimes\rho_2\otimes...\otimes\rho_N\)</span>. Taking the decomposition from before, this leads to a linear combination of all Pauli matrices:</p>
+<div class="math notranslate nohighlight">
+\[\rho=\frac{1}{2^N}\sum_{i_1,...,i_N}^NC_{i_1,...,i_N}\sigma_{i_1}\otimes...\otimes\sigma_{i_N},\hspace{1cm}\sigma_{i}\in\{I_2,\sigma_x,\sigma_y,\sigma_z\}.\]</div>
+<p>The coefficients <span class="math notranslate nohighlight">\(C_{i_1,...,i_N}\)</span> can be found by performing simultaneous qubit measurements on the <span class="math notranslate nohighlight">\(i_1,...,i_N\)</span> axes. Note that they are by definition joint parity measurements. For example, <span class="math notranslate nohighlight">\(\langle\sigma_z\otimes\sigma_z\rangle\)</span> gives the product of the individual <span class="math notranslate nohighlight">\(z\)</span>-measurements. So if one measures 01 then the first qubit gives +1 while the second qubit gives -1 to both give +1x-1=-1. The measurement bases are done in the same way as the single-qubit case. For example, with 4 qubits, <span class="math notranslate nohighlight">\(C_{1423}\)</span> corresponds to doing nothing on the first qubit (i.e. <span class="math notranslate nohighlight">\(I_2\)</span> requires no measurement), a normal <span class="math notranslate nohighlight">\(z\)</span> measurement on the second qubit, an <span class="math notranslate nohighlight">\(x\)</span> measurement on the third qubit (i.e. via the <span class="math notranslate nohighlight">\(y\)</span> rotation as discussed above) and a <span class="math notranslate nohighlight">\(y\)</span> measurement on the fourth qubit (i.e. via the <span class="math notranslate nohighlight">\(x\)</span> rotation as discussed above).</p>
+<p>Thus, the measurement protocol amounts to preparing the state, applying any appropriate basis rotations and measuring all qubits over the <span class="math notranslate nohighlight">\(4^N\)</span> possible states.</p>
+</section>
+<section id="actual-reconstruction">
+<h2>Actual Reconstruction<a class="headerlink" href="#actual-reconstruction" title="Link to this heading"></a></h2>
+<p>In the experiment one prepares the same state over <span class="math notranslate nohighlight">\(4^N\)</span> sequences to get the coefficients <span class="math notranslate nohighlight">\(C_{i_1,...,i_N}\)</span>. Note that for each sequence, one needs to take a set of measurement <span class="math notranslate nohighlight">\(M\)</span> shots (e.g. 1024) to get <span class="math notranslate nohighlight">\(N\)</span> streams of <span class="math notranslate nohighlight">\(M\)</span> numbers (each being either 0 or 1). One could just map <span class="math notranslate nohighlight">\(\{0,1\}\to\{1,-1\}\)</span> and take the product across each measurement shot and then take the average across all <span class="math notranslate nohighlight">\(M\)</span> shots. However, if performing readout correction, there needs to be a vector of populations. This is calculated via:</p>
+<ul class="simple">
+<li><p>Treat each <span class="math notranslate nohighlight">\(N\)</span>-vector as a binary number and increment said index in a <span class="math notranslate nohighlight">\(2^N\)</span>-array. For example, for 4 qubits, if the measurement was 1010, then increment index 10.</p></li>
+<li><p>Divide the <span class="math notranslate nohighlight">\(2^N\)</span>-array by <span class="math notranslate nohighlight">\(M\)</span> to get the mean population probabilities. Apply readout correction to shift the probabilities. This vector is the population vector along the <span class="math notranslate nohighlight">\(N\)</span>-qubit computatational basis.</p></li>
+<li><p>Now to calculate the expectation <span class="math notranslate nohighlight">\(\langle\sigma_{i_1}\otimes...\otimes\sigma_{i_N}\rangle\)</span>, one sums over the probability-weighted sum of all basis vector parities.</p></li>
+</ul>
+<p>To understand the last step, just take the example for two qubits with the probability vector being (0.1,0.4,0.4,0.1) over the basis 00, 01, 10 and 11:</p>
+<ul class="simple">
+<li><p>00 contributes +1, 01 contributes -1, 10 contributes -1 and 11 contributes 11</p></li>
+<li><p>Thus, the expectation is: 0.1-0.4-0.4+0.1 = -0.6</p></li>
+</ul>
+<p>That is, it is a parity measurement where for each computational basis vector, just count the number of 1s; if it is odd, then it’s -1 and +1. Then multiply by the probability and sum over all computational basis vectors.</p>
+<p>Upon finding <span class="math notranslate nohighlight">\(C_{i_1,...,i_N}\)</span>, one could naively sum it with the appropriate Pauli-matrix tensor products. However, the resulting matrix will likely be an invalid density matrix for it will violate unit-trace and positive semi-definiteness. Thus, the utility class <code class="xref py py-class docutils literal notranslate"><span class="pre">sqdtoolz.Utilities.DataDensityMatrix.DataDensityMatrix</span></code> employs an optimisation procedure where one first realises that a matrix <span class="math notranslate nohighlight">\(A\)</span> is positive semi-definite if and only if <span class="math notranslate nohighlight">\(A=T^\dagger T\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Initialise matrix <span class="math notranslate nohighlight">\(T\in\mathbb{C}^{2^N}\times\mathbb{C}^{2^N}\)</span></p></li>
+<li><p>Take the candidate <span class="math notranslate nohighlight">\(T\)</span> and calculate <span class="math notranslate nohighlight">\(\rho'=T^\dagger T/\textnormal{tr}(T^\dagger T)\)</span></p></li>
+<li><p>Calculate all <span class="math notranslate nohighlight">\(4^N\)</span> values of <span class="math notranslate nohighlight">\(C'_{i_1,...,i_N}=\textnormal{tr}(\rho'(\sigma_{i_1}\otimes...\otimes\sigma_{i_N}))\)</span>.</p></li>
+<li><p>Calculate <span class="math notranslate nohighlight">\(\mathcal{L}=\sum_{i_1,...,i_N}^N(C'_{i_1,...,i_N}-C_{i_1,...,i_N})^2\)</span></p></li>
+<li><p>Minimise <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> over the <span class="math notranslate nohighlight">\(2^N\times2^N\times2\)</span> real-valued numbers in <span class="math notranslate nohighlight">\(T\)</span> (going back to step 2 to recalculate the new <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>)</p></li>
+</ol>
+<p>The minimiser just uses <code class="docutils literal notranslate"><span class="pre">BFGS</span></code> via <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code>. By construction the final <span class="math notranslate nohighlight">\(\rho=T^\dagger T\)</span> yields a valid density matrix.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../devices/QuantWareSopranoD2.html" class="btn btn-neutral float-left" title="QuantWare Soprano D2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="readoutcorrection.html" class="btn btn-neutral float-right" title="Readout Correction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
