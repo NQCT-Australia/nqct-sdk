@@ -25,13 +25,13 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install package
-        run: uv sync --extra dev
+        run: uv sync --extra dev --python ${{ matrix.python-version }}
 
       - name: Ruff
-        run: uv run ruff check nqct tests
+        run: uv run --python ${{ matrix.python-version }} ruff check nqct tests
 
       - name: Mypy
-        run: uv run mypy nqct
+        run: uv run --python ${{ matrix.python-version }} mypy nqct
 
       - name: Pytest
-        run: uv run pytest tests/unit --cov=nqct --cov-report=term-missing
+        run: uv run --python ${{ matrix.python-version }} pytest tests/unit --cov=nqct --cov-report=term-missing
