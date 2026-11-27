@@ -119,6 +119,13 @@
 <li><p>A 50Ω output load that connects to a superconducting flux line that is shorted to ground</p></li>
 </ul>
 <p>That is, given the final voltage amplitude of the flux signal, the 50Ω output load limits the resulting current. Now if one calculates the flux in the SQUID loop due to a unit of current in the flux line, one has the mapping of voltage amplitude to flux amplitude. In the <em>NQCT API</em>, one may query the hardware mapping via:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dict_qubit_params</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get_qubit_params</span><span class="p">(</span><span class="s1">'Q0'</span><span class="p">)</span>   <span class="c1">#qs is a QuantumSession object</span>
+<span class="n">dict_flux_params</span> <span class="o">=</span> <span class="n">dict_qubit_params</span><span class="p">[</span><span class="s1">'FluxConversionParams'</span><span class="p">]</span>
+<span class="c1">#</span>
+<span class="n">max_qubit_freq</span> <span class="o">=</span> <span class="n">dict_qubit_params</span><span class="p">[</span><span class="s1">'DriveGE'</span><span class="p">]</span>
+<span class="n">volt_to_flux_conv</span> <span class="o">=</span> <span class="n">dict_flux_params</span><span class="p">[</span><span class="s1">'period'</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>That is, the <cite>‘FluxConversionParams’</cite> parameter has a key <cite>‘period’</cite> that is the voltage applied (at the input of the fridge signal line - i.e. before the attenuators and filters etc.) to inject one flux quantum <span class="math notranslate nohighlight">\(\Phi_0=h/(2e)\)</span> through the SQUID loop.</p>
 </section>
 <section id="mapping-flux-to-qubit-frequency">
@@ -127,6 +134,9 @@
 <div class="math notranslate nohighlight">
 \[E_\text{qubit} = \sqrt{8E_CE_\text{SQUID}}-E_C\]</div>
 <p>where <span class="math notranslate nohighlight">\(E_C\)</span> is the charging energy of the transmon qubit. Note that the this equation only works in the transmon regime where <span class="math notranslate nohighlight">\(E_\text{SQUID}/E_C\gg1\)</span>. For convenience, the <em>NQCT API</em> provides a convenient conversion function that maps voltage amplitude to qubit frequency:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qs</span><span class="o">.</span><span class="n">get_qubit_freq_from_amplitude</span><span class="p">(</span><span class="s1">'Q0'</span><span class="p">,</span> <span class="mf">0.47</span><span class="p">)</span>   <span class="c1">#qs is a QuantumSession object</span>
+</pre></div>
+</div>
 <p>where the second parameter is the flux amplitude in [-1,1].</p>
 </section>
 </section>
