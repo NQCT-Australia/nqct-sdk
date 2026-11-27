@@ -155,10 +155,7 @@ class QuantumSession:
         assert np.min(flux_amplitude) >= -1 and np.max(flux_amplitude) <= 1, "The flux_amplitude must be in [-1,1]."
         dict_qubit_params = self.get_qubit_params('Q0')   #qs is a QuantumSession object
         assert 'FluxConversionParams' in dict_qubit_params, f"This qubit '{qubit_name}' does not have flux parameters to perform the conversion."
-        if 'FluxRange' in dict_qubit_params:
-            flux_range = dict_qubit_params['FluxRange']
-        else:
-            flux_range = 5
+        flux_range = dict_qubit_params['FluxRange'] if 'FluxRange' in dict_qubit_params else 5
         dict_flux_params = dict_qubit_params['FluxConversionParams']
         ret_freq = DataTransmonFlux.convert_flux_amplitude_to_frequency(dict_flux_params, flux_amplitude=flux_amplitude, flux_range=flux_range)
         if len(ret_freq.shape) == 0:
