@@ -30,6 +30,7 @@ The journey of a voltage sent to the signal line connecting to the flux line of 
 That is, given the final voltage amplitude of the flux signal, the 50Ω output load limits the resulting current. Now if one calculates the flux in the SQUID loop due to a unit of current in the flux line, one has the mapping of voltage amplitude to flux amplitude. In the *NQCT API*, one may query the hardware mapping via:
 
 .. code:: python
+
     dict_qubit_params = qs.get_qubit_params('Q0')   #qs is a QuantumSession object
     dict_flux_params = dict_qubit_params['FluxConversionParams']
     #
@@ -45,11 +46,13 @@ Mapping flux to qubit frequency
 Given `'max_qubit_freq'` and `'volt_to_flux_conv'` from the previous code snippet alongside the equation for SQUID oscillations, one may obtain the qubit frequency via:
 
 .. math::
+
     E_\text{qubit} = \sqrt{8E_CE_\text{SQUID}}-E_C
 
 where :math:`E_C` is the charging energy of the transmon qubit. Note that the this equation only works in the transmon regime where :math:`E_\text{SQUID}/E_C\gg1`. For convenience, the *NQCT API* provides a convenient conversion function that maps voltage amplitude to qubit frequency:
 
 .. code:: python
+
     qs.get_qubit_freq_from_amplitude('Q0', 0.47)   #qs is a QuantumSession object
 
 where the second parameter is the flux amplitude in [-1,1].
