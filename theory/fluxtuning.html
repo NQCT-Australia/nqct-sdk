@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flux Tuning &mdash; NQCT  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+    <link rel="shortcut icon" href="../_static/nqct-icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="QuantWare Soprano D2" href="../devices/QuantWareSopranoD2.html" />
+    <link rel="prev" title="Ramsey Experiment" href="../examples/PLC_Ramsey.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NQCT
+              <img src="../_static/nqct.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">OpenQASM Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/oqasmpulseoverview.html">Compiler and Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/hardwarelimits.html">Hardware Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/oqasmpulsesupport.html">Supported Features &amp; Rules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Worked Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Worked examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Theory and Control</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Flux Tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Device Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devices/QuantWareSopranoD2.html">QuantWare Soprano D2 (5Q)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utilities and Postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../postprocs/statetomography.html">State Tomography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../postprocs/readoutcorrection.html">Readout correction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Interface Classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NQCT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Flux Tuning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/theory/fluxtuning.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flux-tuning">
+<span id="fluxtuning"></span><h1>Flux Tuning<a class="headerlink" href="#flux-tuning" title="Link to this heading"></a></h1>
+<p>The flux-tunable transmon qubits replace a normal singular Josephson junction with two parallel Josephson junctions to form a SQUID (superconducting quantum interference device) loop. When passing a magnetic field through this SQUID loop, the energy of the transmon can be tuned. This article highlights the basic theory on how a voltage pulse sent to the device under test maps onto a magnetic field which maps onto the subsequent qubit energy.</p>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Link to this heading"></a></h2>
+<p>It can be shown that the maximum potential energy obtained by connecting 2 identical Josephson junctions in parallel is:</p>
+<div class="math notranslate nohighlight">
+\[E_\text{SQUID} = 2E_J\left| \cos\left(\frac{e\Phi_e}{\hbar}\right)\right|\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_J\)</span> is the Josephson energy of one of the individual Josephson junctions, <span class="math notranslate nohighlight">\(\Phi_e\)</span> is the externally applied flux penetrating the SQUID loop, <span class="math notranslate nohighlight">\(e\)</span> is elementary charge and <span class="math notranslate nohighlight">\(\hbar\)</span> is Planck’s constant over <span class="math notranslate nohighlight">\(2\pi\)</span>. When setting <span class="math notranslate nohighlight">\(\Phi_e=0\)</span> (or any multiple of the flux quantum), then the qubit energy is at its so-called ‘sweet-spot’ maximum value. In this region, the derivative <span class="math notranslate nohighlight">\(\partial E_\text{qubit}/\partial\Phi_e\)</span> is zero. The SQUID oscillations have a period of the flux quantum <span class="math notranslate nohighlight">\(\Phi_0=h/(2e)\)</span> in <span class="math notranslate nohighlight">\(\Phi_e\)</span>.</p>
+<p>Thus, at the sweet-spot, the qubit is least susceptible to decoherence due to flux noise. Typical operation involves the qubit tuned to the flux sweet-spot at all times with transient flux pulses used to offset the qubit energy to have it resonantly interact with other qubits when executing two-qubit gates.</p>
+</section>
+<section id="mapping-voltage-to-flux">
+<h2>Mapping voltage to flux<a class="headerlink" href="#mapping-voltage-to-flux" title="Link to this heading"></a></h2>
+<p>The journey of a voltage sent to the signal line connecting to the flux line of the qubit chip involves:</p>
+<ul class="simple">
+<li><p>Several attenuators that lower the voltage amplitude (placed to thermalise signal lines to the local fridge temperatures to thereby, lower the Johnson noise profile)</p></li>
+<li><p>Low-pass filters to attenuate high-frequency Johnson noise</p></li>
+<li><p>A 50Ω output load that connects to a superconducting flux line that is shorted to ground</p></li>
+</ul>
+<p>That is, given the final voltage amplitude of the flux signal, the 50Ω output load limits the resulting current. Now if one calculates the flux in the SQUID loop due to a unit of current in the flux line, one has the mapping of voltage amplitude to flux amplitude. In the <em>NQCT API</em>, one may query the hardware mapping via:</p>
+<p>That is, the <cite>‘FluxConversionParams’</cite> parameter has a key <cite>‘period’</cite> that is the voltage applied (at the input of the fridge signal line - i.e. before the attenuators and filters etc.) to inject one flux quantum <span class="math notranslate nohighlight">\(\Phi_0=h/(2e)\)</span> through the SQUID loop.</p>
+</section>
+<section id="mapping-flux-to-qubit-frequency">
+<h2>Mapping flux to qubit frequency<a class="headerlink" href="#mapping-flux-to-qubit-frequency" title="Link to this heading"></a></h2>
+<p>Given <cite>‘max_qubit_freq’</cite> and <cite>‘volt_to_flux_conv’</cite> from the previous code snippet alongside the equation for SQUID oscillations, one may obtain the qubit frequency via:</p>
+<div class="math notranslate nohighlight">
+\[E_\text{qubit} = \sqrt{8E_CE_\text{SQUID}}-E_C\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_C\)</span> is the charging energy of the transmon qubit. Note that the this equation only works in the transmon regime where <span class="math notranslate nohighlight">\(E_\text{SQUID}/E_C\gg1\)</span>. For convenience, the <em>NQCT API</em> provides a convenient conversion function that maps voltage amplitude to qubit frequency:</p>
+<p>where the second parameter is the flux amplitude in [-1,1].</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../examples/PLC_Ramsey.html" class="btn btn-neutral float-left" title="Ramsey Experiment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../devices/QuantWareSopranoD2.html" class="btn btn-neutral float-right" title="QuantWare Soprano D2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
