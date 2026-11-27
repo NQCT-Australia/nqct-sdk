@@ -21,6 +21,8 @@ import re
 import shutil
 import warnings
 from sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer import ExpZIQASMDataViewer
+from sqdtoolz.Utilities.DataQubitFlux import DataTransmonFlux
+import numpy as np
 
 _EMPTY_CAL_BLOCK_RE = re.compile(
     r"^\s*cal\s*\{\s*\}\s*;?\s*$",
@@ -148,6 +150,20 @@ class QuantumSession:
         avail_qubits = self.get_qubit_names()
         assert qubit_name in avail_qubits, f"Qubit {qubit_name} does not exist. Available qubits are: {avail_qubits}"
         return [x for x in self._sel_backend.backend_metadata['topology']['calibration']['payload']['Qubits'] if x['Name']==qubit_name][0]
+
+    def get_qubit_freq_from_amplitude(self, qubit_name, flux_amplitude):
+        assert np.min(flux_amplitude) >= -1 and np.max(flux_amplitude) <= 1, "The flux_amplitude must be in [-1,1]."
+        dict_qubit_params = self.get_qubit_params('Q0')   #qs is a QuantumSession object
+        assert 'FluxConversionParams' in dict_qubit_params, f"This qubit '{qubit_name}' does not have flux parameters to perform the conversion."
+        if 'FluxRange' in dict_qubit_params:
+            flux_range = dict_qubit_params['FluxRange']
+        else:
+            flux_range = 5
+        dict_flux_params = dict_qubit_params['FluxConversionParams']
+        ret_freq = DataTransmonFlux.convert_flux_amplitude_to_frequency(dict_flux_params, flux_amplitude=flux_amplitude, flux_range=flux_range)
+        if len(ret_freq.shape) == 0:
+            ret_freq = float(ret_freq)
+        return ret_freq
 
     def get_final_qasm(self):
         qasm = self._qasm

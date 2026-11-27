@@ -21,6 +21,13 @@ The `nqct` package provides Python utilities to interact with the cloud interfac
 
 .. toctree::
    :maxdepth 1
+   :caption: Theory and Control
+   :titlesonly:
+
+   Flux Tuning <theory/fluxtuning>
+
+.. toctree::
+   :maxdepth 1
    :caption: Hardware Device Details
 
    QuantWare Soprano D2 (5Q) <devices/QuantWareSopranoD2>
