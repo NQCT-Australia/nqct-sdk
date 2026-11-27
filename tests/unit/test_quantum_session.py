@@ -25,16 +25,22 @@ def _install_quantum_session_stubs() -> None:
     """Stub optional lab deps imported by QuantumSession at module load."""
     _sqd = ModuleType("sqdtoolz")
     _sqd_utils = ModuleType("sqdtoolz.Utilities")
+    _sqd_utils.__path__ = []  # type: ignore[attr-defined]
     _sqd_oqasm = ModuleType("sqdtoolz.Utilities.OpenQASM")
+    _sqd_oqasm.__path__ = []  # type: ignore[attr-defined]
     _parser = ModuleType("sqdtoolz.Utilities.OpenQASM.ParserOpenQASM")
     _sched = ModuleType("sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI")
     _file_json = ModuleType("sqdtoolz.Utilities.FileJSON")
+    _data_qubit_flux = ModuleType("sqdtoolz.Utilities.DataQubitFlux")
     _sqd_exp = ModuleType("sqdtoolz.Experiments")
+    _sqd_exp.__path__ = []  # type: ignore[attr-defined]
     _sqd_exp_ex = ModuleType("sqdtoolz.Experiments.Experimental")
+    _sqd_exp_ex.__path__ = []  # type: ignore[attr-defined]
     _viewer = ModuleType("sqdtoolz.Experiments.Experimental.ExpZIQASMDataViewer")
     _parser.ParserOpenQASM = MagicMock  # type: ignore[attr-defined]
     _sched.ScheduleParametersJSONConfigZI = MagicMock  # type: ignore[attr-defined]
     _file_json.SerialiseJSON = MagicMock  # type: ignore[attr-defined]
+    _data_qubit_flux.DataTransmonFlux = MagicMock  # type: ignore[attr-defined]
     _viewer.ExpZIQASMDataViewer = MagicMock  # type: ignore[attr-defined]
     sys.modules.setdefault("sqdtoolz", _sqd)
     sys.modules.setdefault("sqdtoolz.Utilities", _sqd_utils)
@@ -44,6 +50,7 @@ def _install_quantum_session_stubs() -> None:
         "sqdtoolz.Utilities.OpenQASM.ScheduleParametersJSONConfigZI", _sched
     )
     sys.modules.setdefault("sqdtoolz.Utilities.FileJSON", _file_json)
+    sys.modules.setdefault("sqdtoolz.Utilities.DataQubitFlux", _data_qubit_flux)
     sys.modules.setdefault("sqdtoolz.Experiments", _sqd_exp)
     sys.modules.setdefault("sqdtoolz.Experiments.Experimental", _sqd_exp_ex)
     sys.modules.setdefault(
